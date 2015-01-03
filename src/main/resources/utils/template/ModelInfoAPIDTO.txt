@@ -1,0 +1,30 @@
+package com.daxia.wy.dto.api.info;
+
+import java.util.List;
+
+import com.daxia.wy.dto.api.{Model}APIDTO;
+
+public class {Model}InfoAPIDTO extends BaseInfoAPIDTO {
+    
+    public {Model}InfoAPIDTO(List<{Model}APIDTO> {model}Infos) {
+        super();
+        this.{model}Infos = {model}Infos;
+    }
+
+    private List<{Model}APIDTO> {model}Infos;
+
+    /**
+     * @return the {model}Infos
+     */
+    public List<{Model}APIDTO> get{Model}Infos() {
+        return {model}Infos;
+    }
+
+    /**
+     * @param {model}Infos the {model}Infos to set
+     */
+    public void set{Model}Infos(List<{Model}APIDTO> {model}Infos) {
+        this.{model}Infos = {model}Infos;
+    }
+    
+}

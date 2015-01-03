@@ -1,0 +1,24 @@
+#north {
+    height:60px;
+    background:url(kenan.png);
+    padding:10px
+}
+
+.k_right {
+    float: right;
+}
+.k_text_right {
+    text-align: right;
+}
+
+.tab_div {
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	
+}
+
+.tab_div_div {
+	margin-bottom: 10px;
+	
+}

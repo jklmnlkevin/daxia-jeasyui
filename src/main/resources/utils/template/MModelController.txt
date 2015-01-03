@@ -1,0 +1,27 @@
+package com.daxia.wy.web.controller.m;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.daxia.core.support.MPage;
+import com.daxia.wy.dto.{Model}DTO;
+import com.daxia.wy.dto.api.{Model}APIDTO;
+import com.daxia.wy.dto.api.info.{Model}InfoAPIDTO;
+
+@Controller
+@RequestMapping(value = "/m/{model}", produces = "text/html;charset=UTF-8")
+public class M{Model}Controller extends MBaseController {
+    
+    @ResponseBody
+    @RequestMapping("list")
+    public String list({Model}DTO dto, MPage page) throws Exception {
+    
+        List<{Model}DTO> {model}DTOs = {model}Service.find(dto, page);
+
+        return toApiOutput({model}DTOs, {Model}APIDTO.class, {Model}InfoAPIDTO.class, page);
+    }
+    
+}
