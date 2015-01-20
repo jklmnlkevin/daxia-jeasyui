@@ -11,17 +11,10 @@
 
 <div class="tab_div">
 			<div class="tab_div_div">
-                Date From: <input class="easyui-datebox" style="width:180px">
-                To: <input class="easyui-datebox" style="width:180px">
-                Language:
-                <select class="easyui-combobox" panelHeight="auto" style="width:100px">
-                    <option value="java">Java</option>
-                    <option value="c">C</option>
-                    <option value="basic">Basic</option>
-                    <option value="perl">Perl</option>
-                    <option value="python">Python</option>
-                </select>
-                <a href="#" class="easyui-linkbutton" iconCls="icon-search">查找</a>
+				<form id="search_form">
+                标题: <input name="title" id="title">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="search_form()">查找</a>
+                </form>
             </div>
             <table id="dg">
                 <!-- <thead>
@@ -38,24 +31,26 @@
 </div>            
 
 <script>
-$('#dg').datagrid({
-    url:'${ctx }/admin/notice/datagrid',
-    columns:[[
-        {field:'id',title:'ID',width:100},
-        {field:'title',title:'Title',width:100},
-        {field:'price',title:'Price',width:100,align:'right'},
-        {field: '操作', title: '操作', formatter:function(value, row, index) {
-        	var html = "<a href='#'>Edit</a>";
-        	html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>Delete</a>";
-        	return html;	
-        }}
-    ]],
-    toolbar: ${module}_toolbar,
-    rownumbers: true,
-    pagination: true
-});
+function init(params) {
+	$('#dg').datagrid({
+	    url:'${ctx }/admin/notice/datagrid?1=1&',
+	    method: "POST",
+	    queryParams: {
+			title: $('#title').val()
+		},
+	    columns:[[ // field是与json字段对应的，title是显示在表头的
+	        {field:'ck', checkbox:'true'},
+	        {field:'id',title:'ID',width:100},
+	        {field:'title',title:'标题',width:100},
+	        {field:'price',title:'价格',width:100,align:'right'}
+	    ]],
+	    toolbar: ${module}_toolbar,
+	    rownumbers: true,
+	    pagination: true
+	});
+}
 
-
+init();
 
 var ${module}_toolbar = [{
     text:'新增2',
@@ -88,11 +83,75 @@ var ${module}_toolbar = [{
 },{
     text:'删除',
     iconCls:'icon-cut',
-    handler:function(){alert('cut')}
+    handler:function(){
+    	var ids = getSelectedIds();
+    	console.log('ids: ' + ids);
+    	if (!!!ids || ids == '') {
+    		alert('请选择要删除的记录');
+    		return;
+    	} 
+    	
+    	$.messager.confirm('确认','您确认想要删除记录吗？',function(r){   
+    	    if (r){   
+    	        $.ajax({
+    	        	url:"${ctx}/admin/notice/delete",
+    	        	data: {
+    	        		ids: ids
+    	        	},
+    	        	success: function(data) {
+    	        		$.messager.alert('警告','警告消息');
+    	        		$('#dg').datagrid('reload');	
+    	        	},
+    	        	error: function(data) {
+    	        		
+    	        	}
+    	        });
+    	    }   
+    	});
+    	
+    }
 },'-',{
     text:'Save',
     iconCls:'icon-save',
-    handler:function(){alert('save')}
+    handler:function(){
+    	var id = getSelectedId();
+    	console.log('id = ' + id);
+    	if (!!!id || id == '') {
+    		alert('请选择要修改的记录');
+    		return;	
+    	}
+    }
 }];
 
+function getSelectedId() {
+	var arr = $('#dg').datagrid("getSelections");
+	if (arr && arr[0]) {
+		return arr[0].id;
+	} else {
+		return null;
+	}
+}
+
+// split with ,
+function getSelectedIds() {
+	var arr = $('#dg').datagrid("getSelections");
+	if (arr) {
+		var idsArr = new Array();
+		for (var i = 0; i < arr.length; i++) {
+			idsArr.push(arr[i].id);
+		}
+		return idsArr.join(',');
+	} else {
+		return null;
+	}
+}
+
+function search_form() {
+	var form = $('#search_form');
+	console.log(form);
+	var queryString = form.serialize();
+	console.log('queryString: ' + queryString);
+	
+	init(queryString); 
+}
 </script>
