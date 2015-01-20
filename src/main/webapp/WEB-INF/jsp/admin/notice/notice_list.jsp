@@ -12,7 +12,7 @@
 <div class="tab_div">
 			<div class="tab_div_div">
 				<form id="notice_search_form">
-                标题: <input name="title" id="title">
+                标题: <input name="title" id="title" class="textbox">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="search_form()">查找</a>
                 </form>
             </div>
@@ -90,7 +90,7 @@ function init(params) {
 	        {field:'price',title:'价格',width:100,align:'right'}
 	    ]],
 	    toolbar: notice_toolbar,
-	    rownumbers: true,
+	    rownumbers: false,
 	    pagination: true
 	});
 }

@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Full Layout - jQuery EasyUI Demo</title>
+    <title>大侠管理系统</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/k.css">
@@ -41,7 +41,8 @@
             margin: 2px 0px;
             font-size: 12px;
             padding-top: 2px;
-            text-align: center;
+            padding-left: 30px; 
+            text-align: left;
             border: 1px dashed #99BBE8;
             background: #E0ECFF;
         }
@@ -104,7 +105,9 @@
 <div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region</div>
 
 
-<div data-options="region:'south',border:false" style="height:20px;background:#A9FACD;padding:0px;"></div>
+<div data-options="region:'south',border:false" style="height:20px;background:#A9FACD;padding:0px;">
+	大侠出品
+</div>
 
 
 <div data-options="region:'center',title:''">
