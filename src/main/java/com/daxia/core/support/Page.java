@@ -9,18 +9,29 @@ public class Page {
 	private String sort;
 	private String alias;
 	
+	private Integer page;
+	private Integer rows;
+	
 	private Integer totalPages;
 
 	private Integer numPerPage = AppProperties.get("page.default.pageSize") == null ? 15 : Integer.valueOf(AppProperties.get("page.default.pageSize"));
 	
 	public Integer getNumPerPage() {
-		return numPerPage;
+	    if (rows != null) {
+	        return rows;
+	    } else {
+	        return numPerPage;
+	    }
 	}
 	public void setNumPerPage(Integer numPerPage) {
 		this.numPerPage = numPerPage;
 	}
 	public Integer getPageNum() {
-		return pageNum;
+	    if (page != null) {
+	        return page;
+	    } else {
+	        return pageNum;
+	    }
 	}
 	public void setPageNum(Integer pageNum) {
 		this.pageNum = pageNum;
@@ -64,6 +75,12 @@ public class Page {
     }
 	public void setTotalPages(Integer totalPages) {
     	this.totalPages = totalPages;
+    }
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+    public void setRows(Integer rows) {
+        this.rows = rows;
     }
 	
 }

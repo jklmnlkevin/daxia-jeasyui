@@ -31,38 +31,17 @@
 </div>            
 
 <script>
-function init(params) {
-	$('#dg').datagrid({
-	    url:'${ctx }/admin/notice/datagrid?1=1&',
-	    method: "POST",
-	    queryParams: {
-			title: $('#title').val()
-		},
-	    columns:[[ // field是与json字段对应的，title是显示在表头的
-	        {field:'ck', checkbox:'true'},
-	        {field:'id',title:'ID',width:100},
-	        {field:'title',title:'标题',width:100},
-	        {field:'price',title:'价格',width:100,align:'right'}
-	    ]],
-	    toolbar: ${module}_toolbar,
-	    rownumbers: true,
-	    pagination: true
-	});
-}
-
-init();
-
-var ${module}_toolbar = [{
-    text:'新增2',
+var notice_toolbar = [{
+    text:'新增',
     iconCls:'icon-add',
     handler:function(){
         $('#dd').dialog({
-            title: 'My Dialog',
+            title: '新增记录',
             width: 600,
             height: 300,
             closed: false,
             cache: false,
-            href: 'get_content.php',
+            href: '${ctx}/admin/notice/detail',
             modal: true,
             buttons: [{
                 text:'Ok',
@@ -87,7 +66,7 @@ var ${module}_toolbar = [{
     	var ids = getSelectedIds();
     	console.log('ids: ' + ids);
     	if (!!!ids || ids == '') {
-    		alert('请选择要删除的记录');
+    		alert2('请选择要删除的记录');
     		return;
     	} 
     	
@@ -99,11 +78,12 @@ var ${module}_toolbar = [{
     	        		ids: ids
     	        	},
     	        	success: function(data) {
-    	        		$.messager.alert('警告','警告消息');
+    	        		// $.messager.alert('通知','操作成功');
+    	        		operateSuccess();
     	        		$('#dg').datagrid('reload');	
     	        	},
     	        	error: function(data) {
-    	        		
+    	        		$.messager.alert('通知','操作失败: ' + data);
     	        	}
     	        });
     	    }   
@@ -111,17 +91,41 @@ var ${module}_toolbar = [{
     	
     }
 },'-',{
-    text:'Save',
-    iconCls:'icon-save',
+    text:'修改',
+    iconCls:'icon-edit',
     handler:function(){
-    	var id = getSelectedId();
-    	console.log('id = ' + id);
-    	if (!!!id || id == '') {
-    		alert('请选择要修改的记录');
-    		return;	
+    	var ids = getSelectedIds();
+    	console.log('ids: ' + ids);
+    	if (!!!ids || ids == '') {
+    		alert2('请选择要修改的记录');
+    		return;
+    	} else if (ids.indexOf(',') != -1) {
+    		alert2('只能选择一条修改的记录');
     	}
     }
 }];
+
+
+function init(params) {
+	$('#dg').datagrid({
+	    url:'${ctx }/admin/notice/datagrid?1=1&',
+	    method: "POST",
+	    queryParams: {
+			title: $('#title').val()
+		},
+	    columns:[[ // field是与json字段对应的，title是显示在表头的
+	        {field:'ck', checkbox:'true'},
+	        {field:'id',title:'ID',width:100},
+	        {field:'title',title:'标题',width:100},
+	        {field:'price',title:'价格',width:100,align:'right'}
+	    ]],
+	    toolbar: notice_toolbar,
+	    rownumbers: true,
+	    pagination: true
+	});
+}
+
+init();
 
 function getSelectedId() {
 	var arr = $('#dg').datagrid("getSelections");

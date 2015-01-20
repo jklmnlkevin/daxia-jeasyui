@@ -39,10 +39,10 @@
 	    <form id="form" action="${ctx }/j_spring_security_check" method="post">
 	    <div class="easyui-panel" title="后台登陆" style="width:400px;padding:30px 70px 20px 70px">
 	        <div style="margin-bottom:10px">
-	            <input name="j_username" class="easyui-textbox" style="width:100%;height:40px;padding:12px" data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
+	            <input name="j_username" value="admin" class="easyui-textbox" style="width:100%;height:40px;padding:12px" data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
 	        </div>
 	        <div style="margin-bottom:20px">
-	            <input name="j_password" class="easyui-textbox" type="password" style="width:100%;height:40px;padding:12px" data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">
+	            <input name="j_password" value="333333" class="easyui-textbox" type="password" style="width:100%;height:40px;padding:12px" data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">
 	        </div>
 	        <c:if test="${!empty(param.error) }">
 	        	<div style="margin-bottom:20px; color: red;">
@@ -59,6 +59,7 @@
     </div>
 	<script type="text/javascript" src="${ctx }/res/jeasyui/k.js"></script>
 	<script>
+	submit();
 		function submit() {
 			$('#form').submit();
 		}

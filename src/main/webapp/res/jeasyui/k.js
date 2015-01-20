@@ -36,4 +36,23 @@ $('ul.menu li').click(function() {
     k_openTab($(this).attr('title'));
 });
 
+function operateSuccess() {
+    $.messager.show({
+        title:'提示',
+        msg:'操作成功',
+        showType:'slide',
+        timeout:1000,
+        style:{
+            right:'',
+            top:document.body.scrollTop+document.documentElement.scrollTop,
+            bottom:''
+        }
+    });
+}
+
+function alert2(msg) {
+	 $.messager.alert('提示', msg, 'warning');
+}
+
 $.fn.datagrid.defaults.loadMsg = "大侠等等";
+
