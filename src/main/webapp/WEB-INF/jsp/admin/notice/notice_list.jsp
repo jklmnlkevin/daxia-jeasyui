@@ -43,7 +43,12 @@ $('#dg').datagrid({
     columns:[[
         {field:'id',title:'ID',width:100},
         {field:'title',title:'Title',width:100},
-        {field:'price',title:'Price',width:100,align:'right'}
+        {field:'price',title:'Price',width:100,align:'right'},
+        {field: '操作', title: '操作', formatter:function(value, row, index) {
+        	var html = "<a href='#'>Edit</a>";
+        	html += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#'>Delete</a>";
+        	return html;	
+        }}
     ]],
     toolbar: ${module}_toolbar,
     rownumbers: true,
