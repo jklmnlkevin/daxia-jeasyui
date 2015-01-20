@@ -32,6 +32,7 @@ public class MyDispatcherServlet extends DispatcherServlet {
                 JsonResultDTO dto = new JsonResultDTO();
                 dto.setStatusCode(StatusCode.ERROR.code());
                 dto.setMessage(convertMessage(e));
+                response.setContentType("application/json");
                 response.getWriter().write(JsonUtils.toJson(dto));
             } else {
             	if (isAjax(request)) {
@@ -39,6 +40,7 @@ public class MyDispatcherServlet extends DispatcherServlet {
             		JsonResultDTO dto = new JsonResultDTO();
             		dto.setStatusCode(StatusCode.ERROR.code());
             		dto.setMessage(convertMessage(e));
+            		response.setContentType("application/json");
             		response.getWriter().write(JsonUtils.toJson(dto));
             	} else {
             		throw e;

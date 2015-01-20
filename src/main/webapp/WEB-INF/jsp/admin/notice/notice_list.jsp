@@ -11,12 +11,12 @@
 
 <div class="tab_div">
 			<div class="tab_div_div">
-				<form id="search_form">
+				<form id="notice_search_form">
                 标题: <input name="title" id="title">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="search_form()">查找</a>
                 </form>
             </div>
-            <table id="dg">
+            <table id="notice_dg">
                 <!-- <thead>
                 <tr>
                     <th data-options="field:'id'">Item ID</th>
@@ -31,66 +31,12 @@
 </div>            
 
 <script>
-var notice_toolbar = [{
-    text:'新增',
-    iconCls:'icon-add',
-    handler:function(){
-        $('#dd').dialog({
-            title: '新增记录',
-            width: 600,
-            height: 300,
-            closed: false,
-            cache: false,
-            href: '${ctx}/admin/notice/detail',
-            modal: true,
-            buttons: [{
-                text:'Ok',
-                iconCls:'icon-ok',
-                handler:function(){
-                    $('#ff').form('submit');
-                }
-            },{
-                text:'Cancel',
-                handler:function(){
-                    $('#dd').dialog('close');
-                }
-            }]
+var notice_toolbar = new Array();
+notice_toolbar.push(toolbar_add('${ctx}/admin/notice/detail'));
 
-        });
-        $('#dd').dialog('refresh', 'detail.html');
-    }
-},{
-    text:'删除',
-    iconCls:'icon-cut',
-    handler:function(){
-    	var ids = getSelectedIds();
-    	console.log('ids: ' + ids);
-    	if (!!!ids || ids == '') {
-    		alert2('请选择要删除的记录');
-    		return;
-    	} 
-    	
-    	$.messager.confirm('确认','您确认想要删除记录吗？',function(r){   
-    	    if (r){   
-    	        $.ajax({
-    	        	url:"${ctx}/admin/notice/delete",
-    	        	data: {
-    	        		ids: ids
-    	        	},
-    	        	success: function(data) {
-    	        		// $.messager.alert('通知','操作成功');
-    	        		operateSuccess();
-    	        		$('#dg').datagrid('reload');	
-    	        	},
-    	        	error: function(data) {
-    	        		$.messager.alert('通知','操作失败: ' + data);
-    	        	}
-    	        });
-    	    }   
-    	});
-    	
-    }
-},'-',{
+notice_toolbar.push(toolbar_delete('notice'));
+notice_toolbar.push('-');
+notice_toolbar.push({
     text:'修改',
     iconCls:'icon-edit',
     handler:function(){
@@ -100,14 +46,38 @@ var notice_toolbar = [{
     		alert2('请选择要修改的记录');
     		return;
     	} else if (ids.indexOf(',') != -1) {
-    		alert2('只能选择一条修改的记录');
+    		alert2('只能选择一条记录进行修改');
+    		return;
     	}
+    	
+    	$('#dd').dialog({
+            title: '新增记录',
+            width: 600,
+            height: 300,
+            closed: false,
+            cache: false,
+            href: '${ctx}/admin/notice/detail?id=' + ids,
+            modal: true,
+            buttons: [{
+                text:'保存',
+                iconCls:'icon-ok',
+                handler:function(){
+                    $('#ff').form('submit');
+                }
+            },{
+                text:'取消',
+                handler:function(){
+                    $('#dd').dialog('close');
+                }
+            }]
+
+        });
     }
-}];
+});
 
 
 function init(params) {
-	$('#dg').datagrid({
+	$('#notice_dg').datagrid({
 	    url:'${ctx }/admin/notice/datagrid?1=1&',
 	    method: "POST",
 	    queryParams: {
@@ -128,7 +98,7 @@ function init(params) {
 init();
 
 function getSelectedId() {
-	var arr = $('#dg').datagrid("getSelections");
+	var arr = $('#notice_dg').datagrid("getSelections");
 	if (arr && arr[0]) {
 		return arr[0].id;
 	} else {
@@ -136,22 +106,10 @@ function getSelectedId() {
 	}
 }
 
-// split with ,
-function getSelectedIds() {
-	var arr = $('#dg').datagrid("getSelections");
-	if (arr) {
-		var idsArr = new Array();
-		for (var i = 0; i < arr.length; i++) {
-			idsArr.push(arr[i].id);
-		}
-		return idsArr.join(',');
-	} else {
-		return null;
-	}
-}
+
 
 function search_form() {
-	var form = $('#search_form');
+	var form = $('#notice_search_form');
 	console.log(form);
 	var queryString = form.serialize();
 	console.log('queryString: ' + queryString);

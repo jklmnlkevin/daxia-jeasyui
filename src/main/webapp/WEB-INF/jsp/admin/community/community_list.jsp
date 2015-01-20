@@ -9,108 +9,111 @@
 
 <c:set var="module" value="community"/>
 
-<form id="pagerForm" method="post" action="${ctx }/admin/${module}/list?navTabId=${param.navTabId}">
-	<input type="hidden" name="status" value="${param.status}">
-	<input type="hidden" name="keywords" value="${param.keywords}" />
-	<input type="hidden" name="pageNum" value="${page.pageNum}" />
-	<input type="hidden" name="numPerPage" value="${page.numPerPage}" />
-	<input type="hidden" name="orderField" value="${param.orderField}" />
-</form>
+<div class="tab_div">
+			<div class="tab_div_div">
+				<form id="community_search_form">
+                标题: <input name="title" id="title">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="search_form()">查找</a>
+                </form>
+            </div>
+            <table id="community_dg">
+                <!-- <thead>
+                <tr>
+                    <th data-options="field:'id'">Item ID</th>
+                    <th data-options="field:'title'">Product</th>
+                    <th data-options="field:'content',align:'right'">List Price</th>
+                    <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+                    <th data-options="field:'attr1',width:240">Attribute</th>
+                    <th data-options="field:'status',width:60,align:'center'">Status</th>
+                </tr> 
+                </thead> -->
+            </table>
+</div>            
 
-<div class="pageHeader">
-	<form rel="pagerForm" onsubmit="return navTabSearch(this);" action="${ctx }/admin/${module}/list?navTabId=${param.navTabId}" method="post">
-	<div class="searchBar">
-		<ul class="searchContent">
-			<li>
-				<label>名称：</label>
-				<input type="text" name="name" value="${community.name}"/>	
-			</li>
-			<li>
-				<label>地址：</label>
-				<input type="text" name="address" value="${community.address}"/>	
-			</li>
-		</ul>
-		<div class="subBar">
-			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
-			</ul>
-		</div>
-	</div>
-	</form>
-</div>
+<script>
+var community_toolbar = new Array();
+community_toolbar.push(toolbar_add('${ctx}/admin/community/detail'));
 
-<div class="pageContent">
-	<div class="panelBar">
-		<ul class="toolBar">
-			<sec:authorize ifAnyGranted="community.add">
-			<li><a class="add" href="${ctx}/admin/${module}/detail?navTabId=${param.navTabId}" target="navTab" mask="true"><span>添加</span></a></li>
-			</sec:authorize>
-			
-			<sec:authorize ifAnyGranted="community.delete">
-			<li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" href="${ctx}/admin/${module}/delete?navTabId=${param.navTabId}" class="delete"><span>删除</span></a></li>
-			</sec:authorize>
-			
-			<sec:authorize ifAnyGranted="community.update">
-			<li><a class="edit" href="${ctx}/admin/${module}/detail?id={sid_user}&navTabId=${param.navTabId}" target="navTab" mask="true" warn="请选择要修改的记录"><span>修改</span></a></li>
-			</sec:authorize>
-			
-			<!-- <li class="line">line</li>
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li> -->
-		</ul>
-	</div>
-	<table class="table" width="100%" layoutH="138" nowrapTD="false">
-		<thead>
-			<tr>
-				<th  align="left"  width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th align="center" width="100">名称</th>
-				<th align="center" width="100">省份</th>
-				<th align="center" width="100">城市</th>
-				<th align="center" width="100">地区</th>
-				<th align="center" width="100">物业电话</th>
-				<th align="center" width="100">物业手机</th>
-				<th align="center" width="100">联系人</th>
-				<th align="center" width="100">地址</th>
-				<th align="center" width="100">经度</th>
-				<th align="center" width="100">纬度</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${communitys }" var="n">
-			<tr target="sid_user" rel="${n.id }">
-				<td><input name="ids" value="${n.id }" type="checkbox"></td>
-				<td>${n.name}</td>
-				<td>${n.province.name}</td>
-				<td>${n.city.name}</td>
-				<td>${n.district.name}</td>
-				<td>${n.telephone}</td>
-				<td>${n.mobilephone}</td>
-				<td>${n.contacter}</td>
-				<td>${n.address}</td>
-				<td>${n.longitude}</td>
-				<td>${n.latitude}</td>
-			</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<div class="panelBar">
-		<div class="pages">
-			<span>显示</span>
-			<select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
-				<option value="${page.numPerPage}" selected>${page.numPerPage}</option>
-				<c:if test="${page.numPerPage != 15}">
-					<option value="15">15</option>
-				</c:if>
-				<c:if test="${page.numPerPage != 50}">
-					<option value="50">50</option>
-				</c:if>
-				<c:if test="${page.numPerPage != 100}">
-					<option value="100">100</option>
-				</c:if>
-			</select>
-			<span>条，共${page.totalRecords}条</span>
-		</div>
-		
-		<div class="pagination" targetType="navTab" totalCount="${page.totalRecords}" numPerPage="${page.numPerPage}" pageNumShown="10" currentPage="${page.pageNum}"></div>
+community_toolbar.push(toolbar_delete('community'));
+community_toolbar.push('-');
+community_toolbar.push({
+    text:'修改',
+    iconCls:'icon-edit',
+    handler:function(){
+    	var ids = getSelectedIds();
+    	console.log('ids: ' + ids);
+    	if (!!!ids || ids == '') {
+    		alert2('请选择要修改的记录');
+    		return;
+    	} else if (ids.indexOf(',') != -1) {
+    		alert2('只能选择一条记录进行修改');
+    		return;
+    	}
+    	
+    	$('#dd').dialog({
+            title: '新增记录',
+            width: 600,
+            height: 300,
+            closed: false,
+            cache: false,
+            href: '${ctx}/admin/community/detail?id=' + ids,
+            modal: true,
+            buttons: [{
+                text:'保存',
+                iconCls:'icon-ok',
+                handler:function(){
+                    $('#ff').form('submit');
+                }
+            },{
+                text:'取消',
+                handler:function(){
+                    $('#dd').dialog('close');
+                }
+            }]
 
-	</div>
-</div>
+        });
+    }
+});
+
+
+function init(params) {
+	$('#community_dg').datagrid({
+	    url:'${ctx }/admin/community/datagrid?1=1&',
+	    method: "POST",
+	    queryParams: {
+			title: $('#title').val()
+		},
+	    columns:[[ // field是与json字段对应的，title是显示在表头的
+	        {field:'ck', checkbox:'true'},
+	        {field:'id',title:'ID',width:100},
+	        {field:'title',title:'标题',width:100},
+	        {field:'price',title:'价格',width:100,align:'right'}
+	    ]],
+	    toolbar: community_toolbar,
+	    rownumbers: true,
+	    pagination: true
+	});
+}
+
+init();
+
+function getSelectedId() {
+	var arr = $('#community_dg').datagrid("getSelections");
+	if (arr && arr[0]) {
+		return arr[0].id;
+	} else {
+		return null;
+	}
+}
+
+
+
+function search_form() {
+	var form = $('#community_search_form');
+	console.log(form);
+	var queryString = form.serialize();
+	console.log('queryString: ' + queryString);
+	
+	init(queryString); 
+}
+</script>
