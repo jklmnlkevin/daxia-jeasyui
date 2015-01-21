@@ -138,7 +138,6 @@ public class ControllerAOP {
 		    }
 		    long start = System.currentTimeMillis();
 			obj = joinPoint.proceed(args);
-			System.out.println("took " + (System.currentTimeMillis() - start) + "ms to process " + joinPoint.getTarget().getClass().getName() + ", " + joinPoint.getSignature().getName());
 			sl.setIsSuccess(true);
 		} catch (Throwable e) {
 			obj = processException(joinPoint, sl, packageName, e);

@@ -19,6 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.daxia.core.common.SystemConfigType;
+import com.daxia.core.service.SystemConfigCache;
+import com.daxia.core.service.SystemConfigService;
 import com.daxia.core.web.controller.BaseController;
 import com.daxia.wy.dto.PushDTO;
 import com.daxia.wy.service.CategoryService;
@@ -99,5 +102,27 @@ public class TestController extends BaseController {
         map.put("result", result);
         map.put("push", pushDTO);
         return "test/test_push";
+    }
+    
+    @Autowired
+    private SystemConfigCache systemConfigCache;
+    @Autowired
+    private SystemConfigService systemConfigService;
+    
+    @RequestMapping(value = "testCache", method = RequestMethod.GET)
+    public String testCache() throws Exception {
+        long start = System.currentTimeMillis();
+        
+        for (int i = 0; i < 1000; i++) {
+            String value = systemConfigService.get(SystemConfigType.ImagePath);
+        }
+        System.out.println("db: took " + (System.currentTimeMillis() - start) + "ms, ");
+        
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 1000; i++) {
+            String value = systemConfigCache.get(SystemConfigType.ImagePath);
+        }
+        System.out.println("cache: took " + (System.currentTimeMillis() - start) + "ms, value: ");
+        return "ok";
     }
 }

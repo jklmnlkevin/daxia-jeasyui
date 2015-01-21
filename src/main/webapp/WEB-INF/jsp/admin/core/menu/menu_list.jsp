@@ -14,25 +14,56 @@
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'west',split:true"
 			style="width: 250px; padding: 10px">
-			<ul id="tt" class="easyui-tree">
-				<li><span>Folder</span>
-					<ul>
-						<li><span>Sub Folder 1</span>
-							<ul>
-								<li><span><a href="#">File 11</a></span></li>
-								<li><span>File 12</span></li>
-								<li><span>File 13</span></li>
-							</ul></li>
-						<li><span>File 2</span></li>
-						<li><span>File 3</span></li>
-					</ul></li>
-				<li><span>File21</span></li>
+			
+			<ul id="menu_tt" class="easyui-tree">
+				<c:forEach items="${menus }" var="m">
+			    	<c:if test="${m.level eq 1 }">
+					<li state="closed" id="${m.id }" level="1">
+						<span>${m.name }</span>
+						<ul>
+							<c:forEach items="${m.children }" var="subMenu">
+								<li id="${subMenu.id }">
+									<span>
+										${subMenu.name }
+									</span>
+								</li>
+							</c:forEach>
+						</ul>
+					</li>
+					</c:if>
+				</c:forEach>
 			</ul>
+			
 		</div>
 
 		<div data-options="region:'center'" style="padding: 10px">
-			Center Content</div>
+		
+			<div id="menu_detail_p" class="easyui-panel" title="菜单详情"    
+			        style="width:500px;padding:10px;background:#fafafa;"  
+			        data-options="iconCls:'icon-save',closable:true,   
+			                collapsible:true,minimizable:true,maximizable:true">  
+			</div>  
+			
+		</div>
 	</div>
 </div>
+
+<script>
+	$('#menu_tt').tree({
+		onClick: function(node){
+			if (node.state == 'open') {
+				$('#menu_tt').tree('collapse', node.target);
+			} else if (node.state == 'closed') {
+				$('#menu_tt').tree('expand', node.target);
+			}
+			
+			$('#menu_detail_p').panel({   
+			    href:'${ctx}/admin/menu/detail?id=' + node.id,   
+			    onLoad:function(){   
+			    }   
+			});  
+		}
+	});
+</script>
 
 

@@ -67,7 +67,6 @@ public class UserService {
 		List<User> models = userDAO.find(dto, page);
 		long start = System.currentTimeMillis();
 		List<UserDTO> dtos = toDTOs(models);
-		System.out.println("took " + (System.currentTimeMillis() - start) + "ms toDTOs");
 		return dtos;
 	}
 
@@ -99,7 +98,6 @@ public class UserService {
 			return null;
 		}
 		UserDTO dto = BeanMapper.map(model, UserDTO.class);
-		System.out.println("took " + (System.currentTimeMillis() - start) + "ms to process single toDTO");
 		return dto;
 	}
 	

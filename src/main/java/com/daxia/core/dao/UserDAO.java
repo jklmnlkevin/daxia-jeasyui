@@ -63,7 +63,6 @@ public class UserDAO extends GenericDAOHibernate<User> {
         
         long start = System.currentTimeMillis();
         List<User> users = super.find(hql.toString(), paras.toArray(), page);
-        System.out.println("took " + (System.currentTimeMillis() - start) + "ms to findUser");
         return users;
     }
     

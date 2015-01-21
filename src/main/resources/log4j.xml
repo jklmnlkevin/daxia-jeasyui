@@ -61,7 +61,7 @@
 	</logger>
 	
 	<logger name="com.daxia.core.aop.ControllerAOP" additivity="false">
-		<level value="info"/>
+		<level value="error"/>
 		<appender-ref ref="console"/>
 		<appender-ref ref="file"/>
 	</logger>  
