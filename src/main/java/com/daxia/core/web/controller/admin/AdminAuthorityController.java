@@ -96,7 +96,7 @@ public class AdminAuthorityController extends BaseController {
 	@RequestMapping(value = "/searchAuthority")
 	public void searchAuthority(HttpServletResponse response, String name) throws IOException {
 		
-		List<AuthorityDTO> authorityDTOs = authorityService.findLikeAuthorities(name);
+		List<AuthorityDTO> authorityDTOs = authorityService.list(new AuthorityDTO(), null);
 		
 		/*List<String> list = new ArrayList<String>();
 		for (AuthorityDTO a : authorityDTOs) {

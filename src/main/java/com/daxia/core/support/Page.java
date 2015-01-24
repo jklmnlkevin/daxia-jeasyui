@@ -1,5 +1,9 @@
 package com.daxia.core.support;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
 import com.daxia.core.config.AppProperties;
 
 public class Page {
@@ -82,5 +86,15 @@ public class Page {
     public void setRows(Integer rows) {
         this.rows = rows;
     }
-	
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("/Users/kevin/agent.txt")));
+        String line = null;
+        String tmp = "update mm_agent set id = {id} where agent = '{agent}';";
+        int id = 1;
+        while ((line = reader.readLine()) != null) {
+            String sql = tmp.replace("{id}", (id ++) + "").replace("{agent}", line);
+            System.out.println(sql);
+        }
+    }
 }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.LogModule;
 import com.daxia.core.common.MenuLevels;
@@ -67,9 +69,7 @@ public class AdminMenuController extends BaseController {
 	@Log(operation = "保存菜单")
 	@PreAuthorize("(hasRole('system.menu.update') and #dto.id != null) or (hasRole('system.menu.add') and #dto.id == null)")
 	public String save(HttpServletResponse response, MenuDTO dto, JsonResultDTO resultDTO) throws IOException {
-		if (StringUtils.isBlank(dto.getAuthority().getName())) {
-			dto.setAuthority(null);
-		}
+		
 		if (dto.getId() == null) {
 			menuService.save(dto);
 		} else {
@@ -109,19 +109,16 @@ public class AdminMenuController extends BaseController {
 	@ResponseBody
     @RequestMapping(value = "/findParent")
     public String searchChildren(HttpServletResponse response, Integer level) throws IOException {
-        StringBuilder builder = new StringBuilder();
         MenuDTO dto = new MenuDTO();
         dto.setLevel(level - 1);
         List<MenuDTO> menus = menuService.list(dto, null);
-        builder.append("[");
+        JSONArray array = new JSONArray();
         for (MenuDTO menu : menus) {
-            builder.append("[\"" + menu.getId() + "\", \"" + menu.getName() + "\"],");
+            JSONObject json = new JSONObject();
+            json.put("id", menu.getId());
+            json.put("name", menu.getName());
+            array.add(json);
         }
-        if (builder.toString().endsWith(",")) {
-            builder.delete(builder.length() - 1, builder.length());
-        }
-        builder.append("]");
-        writeJsonString(response, builder.toString());
-        return null;
+        return array.toJSONString();
     }
 }

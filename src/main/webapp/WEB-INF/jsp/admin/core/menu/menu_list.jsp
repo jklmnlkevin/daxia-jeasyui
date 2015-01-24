@@ -39,9 +39,9 @@
 		<div data-options="region:'center'" style="padding: 10px">
 		
 			<div id="menu_detail_p" class="easyui-panel" title="菜单详情"    
-			        style="width:500px;padding:10px;background:#fafafa;"  
-			        data-options="iconCls:'icon-save',closable:true,   
-			                collapsible:true,minimizable:true,maximizable:true">  
+			        style="width:600px;padding:10px;background:#fafafa;"  
+			        data-options="iconCls:'icon-save',closable:false,   
+			                collapsible:false,minimizable:false,maximizable:false">  
 			</div>  
 			
 		</div>
