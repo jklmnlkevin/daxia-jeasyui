@@ -55,7 +55,9 @@
 	</table>
 	<div style="text-align: right;">
 		<a href="#" class="easyui-linkbutton"
-			data-options="iconCls:'icon-save'" onclick="submitForm();">Save</a>
+			data-options="iconCls:'icon-save'" onclick="submitForm();">保存</a>
+		<a href="#" class="easyui-linkbutton"
+			data-options="iconCls:'icon-remove'" onclick="deleteMenu();">删除</a>	
 	</div>
 </form>
 
@@ -91,6 +93,27 @@
 		textField : 'name',
 		value: '${menu.authority.id}',
 		width: '150px'
-		
 	});
+	
+	function deleteMenu() {
+		$.messager.confirm('确认对话框', '确认要删除该菜单吗？', function(r){
+			if (r){
+				$.ajax({
+					url: "${ctx}/admin/menu/delete?ids=" + ${menu.id},
+					dataType: "json",
+					success: function(data) {
+						if (data.statusCode == 200) {
+							operateSuccess();
+						//	var tab = $('#tt').tabs('getSelected');
+						//	tab.panel("refresh");
+							var node = $('#menu_tt').tree('getSelected');
+							$('#menu_tt').tree('remove', node.target);
+							$('#menu_detail_p').panel('clear');
+						}
+					}
+				});
+			}
+		});
+	}
+	
 </script>
