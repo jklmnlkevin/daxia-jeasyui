@@ -7,71 +7,137 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 
-
 <c:set var="module" value="role"/>
 
-<form id="pagerForm" method="post" action="${ctx }/admin/${module}/list?navTabId=${param.navTabId}">
-	<input type="hidden" name="status" value="${param.status}">
-	<input type="hidden" name="keywords" value="${param.keywords}" />
-	<input type="hidden" name="pageNum" value="${page.pageNum}" />
-	<input type="hidden" name="numPerPage" value="${page.numPerPage}" />
-	<input type="hidden" name="orderField" value="${param.orderField}" />
-</form>
+<div class="tab_div">
+<div class="easyui-panel" title="角色管理"
+	style="width: 900px; height:450px; padding: 10px;">
 
-<!--  
-<div class="pageHeader">
-	<form onsubmit="return navTabSearch(this);" action="${ctx }/admin/${module}/list?navTabId=${param.navTabId}" method="post">
-	<div class="searchBar">
-		<div class="subBar">
-			<ul>
-				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">查询</button></div></div></li>
-				 <li><a class="button" href="demo_page6.html" target="dialog" mask="true" title="查询框"><span>高级检索</span></a></li> 
-			</ul>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'west',split:true"
+			style="width: 440px; padding: 10px; height: 200px;">
+			<div class="tab_div_div">
+				
+            </div>
+            <table id="role_dg">
+            </table>
+         </div>
+         
+         <div data-options="region:'center'" style="padding: 10px">
+			
+			<div id="role_detail_p" class="easyui-panel" title="权限"    
+			        style="width:400px;padding:10px;height: 440px; background:#fafafa;"  
+			        data-options="closable:false,   
+			                collapsible:false,minimizable:false,maximizable:false">  
+			                
+			</div>  
+			
 		</div>
-	</div>
-	</form>
-</div>
--->
+     </div>       
+     </div>       
+            
+</div>            
 
-<div id="${module}_page" class="pageContent leftBar_page">
-	<div class="panelBar">
-		<ul class="toolBar">
-			<sec:authorize ifAnyGranted="system.authority.add">
-			<li><a class="add" href="${ctx}/admin/${module}/detail?navTabId=${param.navTabId}" target="ajax" rel="${module }_jbsxBox" mask="true"><span>添加</span></a></li>
-			</sec:authorize>
-			<!--<li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" href="${ctx}/admin/${module}/delete?navTabId=${param.navTabId}" class="delete"><span>删除</span></a></li>
-			<li><a class="edit" href="${ctx}/admin/${module}/detail?id={sid_user}&navTabId=${param.navTabId}" target="navTab" mask="true" warn="请选择要修改的记录"><span>修改</span></a></li>
-			 <li class="line">line</li>
-			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li> -->
-		</ul>
-	</div>
-	<div class="${module}_div" layoutH="20" style="float:left; display:block; overflow:auto; width:224px; border:solid 1px #CCC; line-height:21px; background:#fff">
-		<table class="table" nowrapTD="false">
-			<thead>
-				<tr>
-					<th align="left"  width="0px"  style="display:none;"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-					<th align="center"  style="font-size:16px;font-weight:bold;">角色名</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${roles }" var="n">
-					<tr onclick="$('.role_input').attr('checked',false); $(this).find('.role_input').attr('checked',true);" target="sid_user" rel="${n.id }">
-						<td style="display:none;"><input class="role_input" name="ids" value="${n.id }" type="checkbox"></td>
-						<td><a style="display:block;height:100%;line-height:28px;" href="${ctx }/admin/role/detail?id=${n.id }" target="ajax"  rel="${module }_jbsxBox">${n.name }</a></td>
-					</tr>
-				</c:forEach>
-			</tbody>
-	</table>
-	
-		<div class="panelBar" style="position:fixed;bottom:35px;">		
-			<div class="pagination" style="padding-left:0px;" targetType="navTab" totalCount="${page.totalRecords}" numPerPage="${page.numPerPage}" pageNumShown="10" currentPage="${page.pageNum}">
-			</div>
-		</div>
-	</div>	
-	
-	<div id="${module }_jbsxBox" class="unitBox" style="margin-left:226px;">
-		<!--#include virtual="list1.html" -->
-	</div>
-	
+<script>
 
-</div>
+var role_toolbar = new Array();
+role_toolbar.push({
+    text:'新增',
+    iconCls:'icon-add',
+    handler:function(){
+    	$('#role_detail_p').panel({   
+		    href:'${ctx}/admin/role/detail', 
+		    onLoad:function(){   
+		    }   
+		});  
+    }
+});
+
+role_toolbar.push(toolbar_delete('role'));
+role_toolbar.push('-');
+
+
+function init(params) {
+	$('#role_dg').datagrid({
+	    url:'${ctx }/admin/role/datagrid?1=1&',
+	    method: "POST",
+	    queryParams: {
+			title: $('#title').val()
+		},
+	    columns:[[ // field是与json字段对应的，title是显示在表头的
+	        {field:'ck', checkbox:'true'},
+	        {field:'id',title:'ID',width:100},
+	        {field:'name',title:'角色',width:100}
+	    ]],
+	    toolbar: role_toolbar,
+	    rownumbers: false,
+	    pagination: true,
+	    width:400,
+	    singleSelect: true,
+	    onSelect: function(rowIndex, rowData) {
+	    	$('#role_detail_p').panel({   
+			    href:'${ctx}/admin/role/detail?id=' + rowData.id,   
+			    onLoad:function(){   
+			    }   
+			});  
+	    }
+	    
+	    
+	});
+	
+}
+
+init();
+
+function getSelectedId() {
+	var arr = $('#role_dg').datagrid("getSelections");
+	if (arr && arr[0]) {
+		return arr[0].id;
+	} else {
+		return null;
+	}
+}
+
+
+
+function search_form() {
+	var form = $('#role_search_form');
+	console.log(form);
+	var queryString = form.serialize();
+	console.log('queryString: ' + queryString);
+	
+	init(queryString); 
+}
+
+
+
+$('#role_detail_p').panel({   
+	  width:400,   
+	  height:440,   
+	  title: '权限',   
+	  tools: [{   
+	    iconCls:'icon-save',   
+	    handler:function(){
+	    	var nodes = $('#role_detail_tree').tree('getChecked');
+	    	var ids = new Array();
+	    	for (var i = 0; i < nodes.length; i++) {
+	    		ids.push(nodes[i].id);
+	    	}
+	    	$.ajax({
+	    		url: "${ctx}/admin/role/save",
+	    		method: "POST",
+	    		data: {
+	    			id: $('#role_id').val(),
+	    			name: $('#role_name').val(),
+	    			authorityIds: ids.join(',')
+	    		},
+	    		dataType: "json",
+	    		success: function(data) {
+	    			k_success(data);
+	    			$('#role_dg').datagrid('reload');
+	    		}
+	    	});
+	    }   
+	  }]   
+	}); 
+</script>

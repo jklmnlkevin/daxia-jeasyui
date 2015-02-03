@@ -56,6 +56,18 @@ function alert2(msg) {
 	 $.messager.alert('提示', msg, 'warning');
 }
 
+function k_success(data) {
+	if (Object.prototype.toString.call(data) === "[object String]") {
+		data = eval("(" + data + ")");
+	}
+	if (data.statusCode == 200) {
+		operateSuccess();
+	} else {
+		alert2(data.message);
+	}
+}
+
+
 $.fn.datagrid.defaults.loadMsg = "大侠等等";
 
 function toolbar_add(url) {

@@ -14,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.LogModule;
 import com.daxia.core.common.Module;
@@ -24,7 +28,9 @@ import com.daxia.core.model.Authority;
 import com.daxia.core.service.AuthorityService;
 import com.daxia.core.service.RoleService;
 import com.daxia.core.support.Page;
+import com.daxia.core.util.JsonUtils;
 import com.daxia.core.web.controller.BaseController;
+import com.daxia.wy.dto.NoticeDTO;
 
 @Module(name = LogModule.Role)
 @Controller
@@ -102,9 +108,7 @@ public class AdminRoleController extends BaseController {
 	
 	@RequestMapping(value = "/list")
 	public String list(RoleDTO dto, Map<String, Object> map, Page page) {
-		List<RoleDTO> dtos = roleService.list(dto, page);
-		map.put("roles", dtos);
-		map.put("role", dto);
+		
 		return "admin/core/role/role_list";
 	}
 	
@@ -113,7 +117,25 @@ public class AdminRoleController extends BaseController {
 	public void find() {
 		
 	}
-
+	
+	@ResponseBody
+    @RequestMapping(value = "/datagrid")
+    public String datagrid(RoleDTO dto, Map<String, Object> map, Page page) {
+        List<RoleDTO> dtos = roleService.list(dto, page);
+        
+        JSONObject json = new JSONObject();
+        json.put("total", page.getTotalRecords());
+        JSONArray array = new JSONArray();
+        for (RoleDTO n : dtos) {
+            JSONObject obj = new JSONObject();
+            obj.put("id", n.getId());
+            obj.put("name", n.getName());
+            array.add(obj);
+        }
+        json.put("rows", array); 
+        return json.toJSONString();
+    }
+	
 	private void processChildren(List<Authority> children, String name) {
 		if (CollectionUtils.isEmpty(children)) {
 			return;

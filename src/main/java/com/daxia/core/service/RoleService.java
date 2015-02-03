@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import com.daxia.core.model.Authority;
 import com.daxia.core.model.Role;
 import com.daxia.core.support.Page;
 import com.daxia.core.util.BeanMapper;
+import com.daxia.core.util.ValidationUtils;
 
 /**
  * Service层，类要加@Service标识
@@ -133,6 +135,8 @@ public class RoleService {
 	}
 	
 	private void processAuthority(Role model, RoleDTO dto) {
+	    ValidationUtils.assertTrue(StringUtils.isNotBlank(dto.getName()), "角色名不能为空");
+	    model.setName(dto.getName());
 		if (CollectionUtils.isEmpty(dto.getAuthorityIds())) {
 			model.setAuthorities(null);
 			return;
@@ -146,7 +150,7 @@ public class RoleService {
 	            // set.addAll(processAuthorityChildren(a));
             }
 		}
-		model.setName(dto.getName());
+		
 		model.setAuthorities(set);
     }
 	
