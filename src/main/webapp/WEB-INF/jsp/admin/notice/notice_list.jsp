@@ -12,35 +12,38 @@
 <div class="tab_div">
 			<div class="tab_div_div">
 				<form id="notice_search_form">
-                标题: <input name="title" id="title" class="textbox">
-                <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="search_form()">查找</a>
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox"><br/>
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                标题: <input name="title" id="title" class="easyui-textbox">
+	                <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="notice_search_form()">查找</a>
                 </form>
             </div>
-            <table id="notice_dg">
-                <!-- <thead>
-                <tr>
-                    <th data-options="field:'id'">Item ID</th>
-                    <th data-options="field:'title'">Product</th>
-                    <th data-options="field:'content',align:'right'">List Price</th>
-                    <th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
-                    <th data-options="field:'attr1',width:240">Attribute</th>
-                    <th data-options="field:'status',width:60,align:'center'">Status</th>
-                </tr> 
-                </thead> -->
+            
+            <table id="notice_datagrid">
             </table>
 </div>            
 
 <script>
 var notice_toolbar = new Array();
-notice_toolbar.push(toolbar_add('${ctx}/admin/notice/detail'));
-
-notice_toolbar.push(toolbar_delete('notice'));
+// 新增按钮
+notice_toolbar.push(k_toolbar_add('notice'));
 notice_toolbar.push('-');
+
+//删除按钮
+notice_toolbar.push(k_toolbar_delete('notice'));
+notice_toolbar.push('-');
+
+// 修改按钮
 notice_toolbar.push({
     text:'修改',
     iconCls:'icon-edit',
     handler:function(){
-    	var ids = getSelectedIds();
+    	var ids = k_getSelectedIds('notice');
     	console.log('ids: ' + ids);
     	if (!!!ids || ids == '') {
     		alert2('请选择要修改的记录');
@@ -62,7 +65,8 @@ notice_toolbar.push({
                 text:'保存',
                 iconCls:'icon-ok',
                 handler:function(){
-                    $('#ff').form('submit');
+                	alert('hi');
+                    $('#notice_detail_form').form('submit');
                 }
             },{
                 text:'取消',
@@ -76,8 +80,9 @@ notice_toolbar.push({
 });
 
 
-function init(params) {
-	$('#notice_dg').datagrid({
+// 初始化 datagrid
+function init() {
+	$('#notice_datagrid').datagrid({
 	    url:'${ctx }/admin/notice/datagrid?1=1&',
 	    method: "POST",
 	    queryParams: {
@@ -91,24 +96,36 @@ function init(params) {
 	    ]],
 	    toolbar: notice_toolbar,
 	    rownumbers: false,
-	    pagination: true
+	    pagination: true,
+	    onLoadError: function() {},
+	    onLoadSuccess: function(data) {}, 
+	    onBeforeRender:function(target, rows) {alert('r	')},
+	    loadFilter: function(data){
+			if (data.statusCode && data.message){
+				k_success(data);
+			} else {
+				return data;
+			}
+		}
 	});
 }
 
+// 初始化datagrid
 init();
 
+/*
 function getSelectedId() {
-	var arr = $('#notice_dg').datagrid("getSelections");
+	var arr = $('#notice_datagrid').datagrid("getSelections");
 	if (arr && arr[0]) {
 		return arr[0].id;
 	} else {
 		return null;
 	}
-}
+} */
 
 
 
-function search_form() {
+function notice_search_form() {
 	var form = $('#notice_search_form');
 	console.log(form);
 	var queryString = form.serialize();

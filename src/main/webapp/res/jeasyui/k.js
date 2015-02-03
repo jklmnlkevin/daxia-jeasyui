@@ -1,5 +1,12 @@
 var ctx = "http://localhost:8080/jeasyui-maven";
 
+try {
+	if (!console) {}
+} catch (e) {
+	console = {};
+	console.log = function(data) {};
+}
+
 function k_getTabOptions(title, href) {
 	return {
         // title: '学生管理'+index,
@@ -70,7 +77,7 @@ function k_success(data) {
 
 $.fn.datagrid.defaults.loadMsg = "正在加载中...";
 
-function toolbar_add(url) {
+function k_toolbar_add(module) {
 	return {
 	    text:'新增',
 	    iconCls:'icon-add',
@@ -81,13 +88,18 @@ function toolbar_add(url) {
 	            height: 300,
 	            closed: false,
 	            cache: false,
-	            href: url,
+	            href: ctx + "/admin/" + module + "/detail",
 	            modal: true,
 	            buttons: [{
 	                text:'保存',
 	                iconCls:'icon-ok',
 	                handler:function(){
-	                    $('#ff').form('submit');
+	                    $('#' + module + '_detail_form').form('submit', {
+	                    	success:function(data) {
+	                    		k_success(data);
+	                    		$('#dd').dialog('close');
+	                    	}
+	                    });
 	                }
 	            },{
 	                text:'取消',
@@ -101,12 +113,12 @@ function toolbar_add(url) {
 	};
 }
 
-function toolbar_delete(module) {
+function k_toolbar_delete(module) {
 	return {
 	    text:'删除',
 	    iconCls:'icon-cut',
 	    handler:function(){
-	    	var ids = getSelectedIds(module);
+	    	var ids = k_getSelectedIds(module);
 	    	if (!!!ids || ids == '') {
 	    		alert2('请选择要删除的记录');
 	    		return;
@@ -124,7 +136,7 @@ function toolbar_delete(module) {
 	    	        		if (data) {
 		    	        		if (data.statusCode == '200') {
 			    	        		operateSuccess();
-		    		        		$('#' + module + '_dg').datagrid('reload');	
+		    		        		$('#' + module + '_datagrid').datagrid('reload');	
 		    	        		} else {
 		    	        			alert2(data.message);
 		    	        		}
@@ -142,8 +154,8 @@ function toolbar_delete(module) {
 }
 
 //split with ,
-function getSelectedIds(module) {
-	var arr = $('#' + module + '_dg').datagrid("getSelections");
+function k_getSelectedIds(module) {
+	var arr = $('#' + module + '_datagrid').datagrid("getSelections");
 	if (arr) {
 		var idsArr = new Array();
 		for (var i = 0; i < arr.length; i++) {
@@ -154,3 +166,13 @@ function getSelectedIds(module) {
 		return null;
 	}
 }
+
+/*
+function k_getSelectedId(module) {
+	var arr = $('#' + module + '_dg').datagrid("getSelections");
+	if (arr) {
+		return arr[0];
+	} else {
+		return null;
+	}
+}*/

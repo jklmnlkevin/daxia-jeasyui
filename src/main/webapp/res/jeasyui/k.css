@@ -30,3 +30,7 @@
 .form-table td{
 	padding:0;
 }
+
+table .textbox {
+  overflow: visible;
+}

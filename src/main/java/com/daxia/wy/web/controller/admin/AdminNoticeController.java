@@ -110,11 +110,6 @@ public class AdminNoticeController extends BaseController {
 	@RequestMapping(value = "/list")
 	@PreAuthorize("hasRole('notice.list')")
 	public String list(NoticeDTO dto, Map<String, Object> map, Page page) {
-		List<NoticeDTO> dtos = noticeService.find(dto, page);
-		// 这个数据是用来展示的
-		map.put("notices", dtos);
-		// 这个数据是保存查询条件的
-		map.put("notice", dto);
 		return "admin/notice/notice_list";
 	}
 	
