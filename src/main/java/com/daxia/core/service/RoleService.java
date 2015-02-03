@@ -74,6 +74,7 @@ public class RoleService {
 		Role model = new Role();
 		toModel(model, dto);
 		processAuthority(model, dto);
+	    ValidationUtils.assertTrue(StringUtils.isNotBlank(model.getName()), "角色名不能为空");
 		roleDAO.create(model);
 	}
 

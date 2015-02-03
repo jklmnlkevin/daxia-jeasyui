@@ -10,6 +10,7 @@
 <div>
 	<input type="hidden" id="role_id" value="${role.id }">
 	角色名：<input type="text" value="${role.name }" id="role_name" class="easyui-textbox">
+	<a id="btn" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="saveRole();" >保存</a>  
 </div>
  <ul id="role_detail_tree" class="">
 				<c:forEach items="${authorities }" var="a">
@@ -21,6 +22,13 @@
 									<span>
 										${sub.name }
 									</span>
+									<ul>
+										<c:forEach items="${sub.children }" var="sub2">
+										<li id="${sub2.id }" ${fn:contains(role.authorityNames, sub2.name) ? 'checked' : '' }>
+											<span>${sub2.name }</span>
+										</li>	
+										</c:forEach>		
+									</ul>
 								</li>
 							</c:forEach>
 						</ul>

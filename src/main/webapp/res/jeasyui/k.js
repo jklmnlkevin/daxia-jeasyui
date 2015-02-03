@@ -68,7 +68,7 @@ function k_success(data) {
 }
 
 
-$.fn.datagrid.defaults.loadMsg = "大侠等等";
+$.fn.datagrid.defaults.loadMsg = "正在加载中...";
 
 function toolbar_add(url) {
 	return {

@@ -111,33 +111,32 @@ function search_form() {
 
 
 
+function saveRole() {
+	var nodes = $('#role_detail_tree').tree('getChecked');
+	var ids = new Array();
+	for (var i = 0; i < nodes.length; i++) {
+		ids.push(nodes[i].id);
+	}
+	$.ajax({
+		url: "${ctx}/admin/role/save",
+		method: "POST",
+		data: {
+			id: $('#role_id').val(),
+			name: $('#role_name').val(),
+			authorityIds: ids.join(',')
+		},
+		dataType: "json",
+		success: function(data) {
+			k_success(data);
+			$('#role_dg').datagrid('reload');
+		}
+	});
+}
+
 $('#role_detail_p').panel({   
 	  width:400,   
 	  height:440,   
-	  title: '权限',   
-	  tools: [{   
-	    iconCls:'icon-save',   
-	    handler:function(){
-	    	var nodes = $('#role_detail_tree').tree('getChecked');
-	    	var ids = new Array();
-	    	for (var i = 0; i < nodes.length; i++) {
-	    		ids.push(nodes[i].id);
-	    	}
-	    	$.ajax({
-	    		url: "${ctx}/admin/role/save",
-	    		method: "POST",
-	    		data: {
-	    			id: $('#role_id').val(),
-	    			name: $('#role_name').val(),
-	    			authorityIds: ids.join(',')
-	    		},
-	    		dataType: "json",
-	    		success: function(data) {
-	    			k_success(data);
-	    			$('#role_dg').datagrid('reload');
-	    		}
-	    	});
-	    }   
-	  }]   
+	  title: '权限'   
+	    
 	}); 
 </script>
