@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.StatusCode;
@@ -58,12 +60,6 @@ public class AdminAuthorityController extends BaseController {
 	@RequestMapping(value = "/save")
 	@Log(operation = "保存权限")
 	public String save(HttpServletRequest request, HttpServletResponse response, AuthorityDTO dto, JsonResultDTO resultDTO) throws IOException {
-		String parentAuthorityName = request.getParameter("parentAuthority.name");
-		if (StringUtils.isBlank(parentAuthorityName)) {
-			if (dto.getParentAuthority() != null) {
-				dto.getParentAuthority().setId(null);
-			}
-		}
 		if (dto.getId() == null) {
 			authorityService.save(dto);
 		} else {
@@ -86,7 +82,7 @@ public class AdminAuthorityController extends BaseController {
 	
 	@RequestMapping(value = "/list")
 	public String list(AuthorityDTO dto, Map<String, Object> map, Page page) {
-		List<AuthorityDTO> dtos = authorityService.list(dto, null);
+		List<AuthorityDTO> dtos = authorityService.listTops();
 		map.put("authorities", dtos);
 		map.put("authority", dto);
 		return "admin/core/authority/authority_list";
@@ -94,17 +90,16 @@ public class AdminAuthorityController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/searchAuthority")
-	public void searchAuthority(HttpServletResponse response, String name) throws IOException {
-		
+	public String searchAuthority(HttpServletResponse response, String name) throws IOException {
 		List<AuthorityDTO> authorityDTOs = authorityService.list(new AuthorityDTO(), null);
-		
-		/*List<String> list = new ArrayList<String>();
-		for (AuthorityDTO a : authorityDTOs) {
-	        list.add(a.getName());
-        }*/
-		
-		PropertyFilter filter = JsonUtils.setFiler(new String[] {"parentAuthority", "roles", "children"});
-		writeJsonArray(response, authorityDTOs, filter);
+		JSONArray array = new JSONArray();
+		for (AuthorityDTO dto : authorityDTOs) {
+            JSONObject obj = new JSONObject();
+            obj.put("id", dto.getId());
+            obj.put("name", dto.getName());
+            array.add(obj);
+        }
+		return array.toJSONString();
 	}
 	
 }

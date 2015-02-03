@@ -39,6 +39,10 @@ public class AuthorityDAO extends GenericDAOHibernate<Authority> {
         	hql.append(" and n.code = ? ");
         	paras.add(dto.getCode());
         }
+        if (StringUtils.isNotBlank(dto.getName())) {
+            hql.append("and n.name like ? ");
+            paras.add("%" + dto.getName() + "%");
+        }
         
         return super.find(hql.toString(), paras.toArray(), page);
     }
