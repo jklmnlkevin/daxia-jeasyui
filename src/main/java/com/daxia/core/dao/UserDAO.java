@@ -1,5 +1,6 @@
 package com.daxia.core.dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import com.daxia.core.support.Page;
  *
  */
 @Repository
-public class UserDAO extends GenericDAOHibernate<User> {
+public class UserDAO extends GenericDAOHibernate<User> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * 查询方法，传入一个dto是为了灵活构建查询条件，避免创建多个查询方法。

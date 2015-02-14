@@ -131,7 +131,7 @@ public class ImageController extends BaseController {
             outStream.write(data);  
         }  
         fis.close();
-        response.setContentType("image/*"); // 设置返回的文件类型  
+        response.setContentType("image/jpeg"); // 设置返回的文件类型  
         outStream.write(data); // 输出数据  
         outStream.close();  
 		
