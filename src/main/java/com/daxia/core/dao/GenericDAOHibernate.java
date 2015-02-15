@@ -21,12 +21,7 @@ import org.hibernate.hql.spi.QueryTranslatorFactory;
 import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.daxia.core.common.UserType;
-import com.daxia.core.model.User;
 import com.daxia.core.support.Page;
-import com.daxia.core.util.SpringSecurityUtils;
-import com.daxia.wy.common.ICommunityRelatedModel;
-import com.daxia.wy.common.IUserRelatedModel;
 
 /**
  * This class implements Data Access Object (DAO) interface using Hibernate.

@@ -88,7 +88,7 @@
 			<c:forEach items="${users }" var="n">
 			<tr target="sid_user" rel="${n.id }">
 				<td><input name="ids" value="${n.id }" type="checkbox"></td>
-				<td>${n.community.name}</td>
+				<td></td>
 				<td>
 				<c:forEach items="${userTypes }" var="t">
 					<c:if test="${n.userType eq t.value }">${t.remark }</c:if>

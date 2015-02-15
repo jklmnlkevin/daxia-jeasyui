@@ -21,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.daxia.core.common.Sex;
 import com.daxia.core.common.UserType;
-import com.daxia.wy.common.ICommunityRelatedModel;
 import com.daxia.wy.model.City;
 import com.daxia.wy.model.District;
 import com.daxia.wy.model.Province;
@@ -31,7 +30,11 @@ import com.daxia.wy.model.Province;
  */
 @Entity // 标识这是一个与数据库映射的实体
 @Table(name = "user") // 指定与数据库映射的表名
-public class User extends BaseModel implements UserDetails, ICommunityRelatedModel {
+public class User extends BaseModel implements UserDetails {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     /**
 	 * id
 	 */

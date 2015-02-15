@@ -11,14 +11,13 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.daxia.core.model.BaseModel;
-import com.daxia.wy.common.ICommunityRelatedModel;
 
 /**
  * Notice
  */
 @Entity // 标识这是一个与数据库映射的实体
 @Table(name = "notice") // 指定与数据库映射的表名
-public class Notice extends BaseModel implements ICommunityRelatedModel {
+public class Notice extends BaseModel {
 	/**
 	 * id
 	 */
