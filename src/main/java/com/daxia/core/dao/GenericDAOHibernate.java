@@ -173,55 +173,6 @@ public class GenericDAOHibernate<T> {
 		getSession().createSQLQuery("delete from `" + clz.getSimpleName().toLowerCase() + "`").executeUpdate();
 	}
 	
-	protected void appendManagerSql(StringBuilder hql, List<Object> paras) {
-	    boolean isUserRelated = isUserRelated();
-	    if (isUserRelated) {
-	        hql.append(" and user.userType != -1 ");
-	    }
-	    
-	    User currentUser = SpringSecurityUtils.getCurrentUser();
-	    boolean isEstate = false;
-	    if (currentUser != null && currentUser.getUserType() == UserType.EstateManager.getValue()) {
-	        isEstate = true;
-	    }
-	    
-	    boolean isCommunityRelated = isCommunityRelated();
-	    if (isEstate && isCommunityRelated) {
-	        hql.append(" and community.id = ? ");
-	        paras.add(currentUser.getCommunity().getId());
-	    }
-	    /*
-		User manager = SpringSecurityUtils.getCurrentUser();
-		if (manager != null && !manager.isHead()) {
-			hql.append(" and store.id = ? ");
-			paras.add(manager.getStore().getId());
-		} */
-	}
+	protected void appendManagerSql(StringBuilder hql, List<Object> paras) {}
 
-    @SuppressWarnings("rawtypes")
-    private boolean isCommunityRelated() {
-        Class[] interfaces = clz.getInterfaces();
-	    if (ArrayUtils.isNotEmpty(interfaces)) {
-	        for (Class interf : interfaces) {
-                if (interf == ICommunityRelatedModel.class) {
-                    return true;
-                }
-            }
-	    }
-	    return false;
-    }
-    
-    @SuppressWarnings("rawtypes")
-    private boolean isUserRelated() {
-        Class[] interfaces = clz.getInterfaces();
-        if (ArrayUtils.isNotEmpty(interfaces)) {
-            for (Class interf : interfaces) {
-                if (interf == IUserRelatedModel.class) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-	
 }

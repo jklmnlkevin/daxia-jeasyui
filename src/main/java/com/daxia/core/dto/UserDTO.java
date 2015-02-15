@@ -20,8 +20,6 @@ import com.daxia.core.model.User;
  */
 public class UserDTO extends User {
     private Integer onlyFindType;
-    private String address = "";
-    private String contacter = "";
 
     public Integer getOnlyFindType() {
         return onlyFindType;
@@ -29,22 +27,6 @@ public class UserDTO extends User {
 
     public void setOnlyFindType(Integer onlyFindType) {
         this.onlyFindType = onlyFindType;
-    }
-
-    public String getAddress() {
-        return getCommunity().getAddress();
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getContacter() {
-        return getCommunity().getContacter();
-    }
-
-    public void setContacter(String contacter) {
-        this.contacter = contacter;
     }
     
 }

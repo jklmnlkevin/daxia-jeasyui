@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,16 +42,6 @@ public class Notice extends BaseModel implements ICommunityRelatedModel {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	@Column(name = "createtime")
     private Date createTime = new Date();
-	/**
-	 * 商家
-	 */
-	@ManyToOne
-	@JoinColumn(name = "store_id")
-    private Store store;
-	
-	@ManyToOne
-    @JoinColumn(name = "community_id")
-    private Community community;
 	
 	private boolean isPublished;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -123,34 +111,6 @@ public class Notice extends BaseModel implements ICommunityRelatedModel {
     	this.createTime = createTime;
     }
 	
-	/** 
-	 * 获取值：商家
-	 */
-	public Store getStore() {
-    	return store;
-    }
-	
-	/** 
-	 * 设置值：商家
-	 */    
-    public void setStore(Store store) {
-    	this.store = store;
-    }
-
-    /**
-     * @return the community
-     */
-    public Community getCommunity() {
-        return community;
-    }
-
-    /**
-     * @param community the community to set
-     */
-    public void setCommunity(Community community) {
-        this.community = community;
-    }
-
     public boolean isPublished() {
         return isPublished;
     }

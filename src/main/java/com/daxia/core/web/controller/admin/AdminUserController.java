@@ -107,7 +107,6 @@ public class AdminUserController extends BaseController {
 		    model.setProvince(dto.getProvince());
 		    model.setCity(dto.getCity());
 		    model.setDistrict(dto.getDistrict());
-		    model.setCommunity(dto.getCommunity());
 		    
 		    // 普通用户的话有更多字段
 		    model.setIdCard(dto.getIdCard());

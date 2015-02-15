@@ -1,19 +1,14 @@
 package com.daxia.wy.web.controller.m;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.LogModule;
@@ -22,16 +17,9 @@ import com.daxia.core.common.UserType;
 import com.daxia.core.dto.UserDTO;
 import com.daxia.core.util.ImageUtils;
 import com.daxia.core.util.ValidationUtils;
-import com.daxia.wy.common.FeeItemTypes;
-import com.daxia.wy.common.PayType;
-import com.daxia.wy.dto.ConvenienceDTO;
 import com.daxia.wy.dto.DistrictDTO;
-import com.daxia.wy.dto.FeeItemDTO;
-import com.daxia.wy.dto.PayRecordDTO;
 import com.daxia.wy.dto.PushDTO;
 import com.daxia.wy.dto.api.UserAPIDTO;
-import com.daxia.wy.dto.api.UserSimpleAPIDTO2;
-import com.daxia.wy.dto.api.info.CommunityInfoAPIDTO;
 import com.daxia.wy.dto.api.info.UserInfoAPIDTO;
 
 @Controller
@@ -190,7 +178,6 @@ public class MUserController extends MBaseController {
         user.setDistrict(district);
         user.setCity(district.getCity());
         user.setProvince(district.getCity().getProvince());
-        user.setCommunity(communityService.load(communityId));
         user.setBuilding(building);
         user.setDoorplate(doorplate);
         
@@ -207,72 +194,6 @@ public class MUserController extends MBaseController {
         obj.put("email", "test@xiaoqu.com");
         obj.put("phone", "13838385438");
         return toJson(obj);
-    }
-    
-    /**
-     * 我的物业缴费
-     * @param request
-     * @return
-     * @throws Exception
-     */
-    @Log(operation = "estatePay")
-    @ResponseBody
-    @RequestMapping("estatePay")
-    public String estatePay(HttpServletRequest request, Integer type, Long id) throws Exception {
-        if (type == null) {
-            type = FeeItemTypes.Estate.getValue();
-        }
-        UserDTO user = userService.load(id);
-        JSONArray jsonArray = new JSONArray();
-        
-        FeeItemDTO query = new FeeItemDTO();
-        query.setType(type);
-        query.setCommunity(user.getCommunity());
-        FeeItemDTO feeItem = feeItemService.findOne(query);
-        if (feeItem == null) {
-            return toJson(jsonArray);
-        }
-        
-        PayRecordDTO dto = new PayRecordDTO();
-        dto.setFeeItem(feeItem);
-        dto.setUser(user);
-        
-        List<PayRecordDTO> payrecords = payRecordService.find(dto, null);
-        if (CollectionUtils.isNotEmpty(payrecords)) {
-            SimpleDateFormat monthDateFormat = new SimpleDateFormat("yyyy.MM");
-            SimpleDateFormat dayDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            
-            
-            for (PayRecordDTO record : payrecords) {
-                JSONObject obj1 = new JSONObject();
-                obj1.put("name", FeeItemTypes.getByValue(record.getFeeItem().getType()).getRemark());
-                obj1.put("monthCount", record.getMonthCount() + "个月");
-                obj1.put("monthDuration", monthDateFormat.format(record.getMonthStart()) + "~" + monthDateFormat.format(record.getMonthEnd()));
-                obj1.put("money", record.getMoney() + "元");
-                obj1.put("payType", PayType.getByValue(record.getPayType()).getRemark());
-                obj1.put("payTime", dayDateFormat.format(record.getPayTime()));
-                jsonArray.add(obj1);
-            }
-        }
-        
-        return toJson(jsonArray);
-    }
-    
-    @ResponseBody
-    @Log(operation = "convenience")
-    @RequestMapping("convenience")
-    public String convenience(HttpServletRequest request) throws Exception {
-        List<ConvenienceDTO> convenienceDTOs = convenienceService.find(new ConvenienceDTO(), null);
-        return toApiOutput(convenienceDTOs, ConvenienceDTO.class, CommunityInfoAPIDTO.class);
-    }
-    
-    @ResponseBody
-    @Log(operation = "convenienceDetail")
-    @RequestMapping("convenienceDetail")
-    public String convenienceDetail(HttpServletRequest request, Long id) throws Exception {
-        ConvenienceDTO dto = convenienceService.load(id);
-        dto.setImage(ImageUtils.getImageFullPath(request, dto.getImage()));
-        return toJson(dto);
     }
     
     @ResponseBody
@@ -339,15 +260,4 @@ public class MUserController extends MBaseController {
         return toJson("ok");
     }
     
-    @ResponseBody
-    @RequestMapping("getEstateInfo") 
-    public String getEstateInfo(UserDTO dto) throws Exception {
-        UserDTO estate = userService.findEstateManager(dto.getCommunity().getId());
-        if (estate != null) {
-            return toApiOutput(estate, UserSimpleAPIDTO2.class, UserInfoAPIDTO.class);
-        } else {
-            throw new ValidationException("没有对应的物业信息");
-        }
-       
-    }
 }

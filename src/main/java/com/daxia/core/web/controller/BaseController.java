@@ -19,32 +19,21 @@ import com.daxia.core.dto.JsonResultDTO;
 import com.daxia.core.service.SystemConfigService;
 import com.daxia.core.util.JsonUtils;
 import com.daxia.wy.service.CityService;
-import com.daxia.wy.service.ConvenienceService;
 import com.daxia.wy.service.DistrictService;
 import com.daxia.wy.service.ProvinceService;
 import com.daxia.wy.service.PushService;
-import com.daxia.wy.service.QuestionReplyService;
-import com.daxia.wy.service.QuestionService;
-import com.daxia.wy.service.RepairReplyService;
 import com.daxia.wy.service.SMSService;
 
 public class BaseController {
     @Autowired
     protected PushService pushService;
-    @Autowired
-    protected ConvenienceService convenienceService;
-    @Autowired
-    protected QuestionService questionService;
-    @Autowired
-    protected QuestionReplyService questionReplyService;
+    
 	@Autowired
 	protected ProvinceService provinceService;
 	@Autowired
 	protected CityService cityService;
 	@Autowired
 	protected DistrictService districtService;
-	@Autowired
-	protected RepairReplyService repairReplyService;
 	
 	@Autowired
 	protected SystemConfigService systemConfigService;

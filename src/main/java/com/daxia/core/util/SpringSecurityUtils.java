@@ -17,9 +17,6 @@ public class SpringSecurityUtils {
 	
 	public static Long getCurrentCommunityId() {
 	    User user = getCurrentUser();
-	    if (user != null && user.getCommunity() != null) {
-	        return user.getCommunity().getId();
-	    }
 	    return null;
 	}
 }

@@ -21,33 +21,11 @@ import com.daxia.core.util.BeanMapper;
 import com.daxia.core.util.JsonUtils;
 import com.daxia.wy.dto.api.MobileApiOutput;
 import com.daxia.wy.dto.api.info.BaseInfoAPIDTO;
-import com.daxia.wy.service.AdviseReplyService;
-import com.daxia.wy.service.AdviseService;
-import com.daxia.wy.service.BuildingService;
-import com.daxia.wy.service.CategoryService;
 import com.daxia.wy.service.CityService;
-import com.daxia.wy.service.CommunityAddApplyService;
-import com.daxia.wy.service.CommunityService;
-import com.daxia.wy.service.ConvenienceService;
 import com.daxia.wy.service.DistrictService;
-import com.daxia.wy.service.DoorplateService;
-import com.daxia.wy.service.FeeItemService;
-import com.daxia.wy.service.HouseKeepingService;
-import com.daxia.wy.service.NoticeReplyService;
 import com.daxia.wy.service.NoticeService;
-import com.daxia.wy.service.OrderService;
-import com.daxia.wy.service.PayRecordService;
-import com.daxia.wy.service.ProductService;
 import com.daxia.wy.service.ProvinceService;
 import com.daxia.wy.service.PushService;
-import com.daxia.wy.service.QuestionService;
-import com.daxia.wy.service.RepairHistoryService;
-import com.daxia.wy.service.RepairReplyService;
-import com.daxia.wy.service.RepairService;
-import com.daxia.wy.service.ServiceTypeService;
-import com.daxia.wy.service.SystemMessageService;
-import com.daxia.wy.service.TopicReplyService;
-import com.daxia.wy.service.TopicService;
 import com.google.common.collect.Lists;
 
 /**
@@ -55,39 +33,9 @@ import com.google.common.collect.Lists;
  */
 public abstract class MBaseController {
     @Autowired
-    protected ServiceTypeService serviceTypeService;
-    @Autowired
-    protected HouseKeepingService houseKeepingService;
-    @Autowired
-    protected OrderService orderService;
-    @Autowired
-    protected ProductService productService;
-    @Autowired
-    protected CategoryService categoryService;
-    @Autowired
-    protected FeeItemService feeItemService;
-    @Autowired
-    protected PayRecordService payRecordService;
-    @Autowired
-    protected SystemMessageService systemMessageService;
-    @Autowired
     protected PushService pushService;
-    @Autowired
-    protected ConvenienceService convenienceService;
-    @Autowired
-    protected AdviseReplyService adviseReplyService;
-    @Autowired
-    protected AdviseService adviseService;
-    @Autowired
-    protected RepairHistoryService repairHistoryService;
-    @Autowired
-    protected TopicService topicService;
-    @Autowired
-    protected TopicReplyService topicReplyService;
-	@Autowired
+    
 	protected UserService userService;
-	@Autowired
-	protected CommunityService communityService;
 	@Autowired
 	protected NoticeService noticeService;
 	@Autowired
@@ -97,21 +45,7 @@ public abstract class MBaseController {
 	@Autowired
 	protected DistrictService districtService;
 	@Autowired
-	protected BuildingService buildingService;
-	@Autowired
-	protected DoorplateService doorplateService;
-	@Autowired
-	protected RepairService repairService;
-	@Autowired
 	protected SystemConfigService systemConfigService;
-	@Autowired
-	protected QuestionService questionService;
-	@Autowired
-	protected CommunityAddApplyService communityAddApplyService;
-	@Autowired
-	protected NoticeReplyService noticeReplyService;
-	@Autowired
-	protected RepairReplyService repairReplyService;
 	
 	protected String toJson(Object obj) {
 	    MobileApiOutput output = new MobileApiOutput();

@@ -51,7 +51,6 @@ public class UserAPIDTO {
      * 城市
      */
     private CityAPIDTO city;
-    private CommunityAPIDTO community;
 
     /**
      * push id
@@ -80,11 +79,7 @@ public class UserAPIDTO {
         this.pushAlias = pushAlias;
     }
     public String getPushTag() {
-        if (getCommunity() != null) {
-            return "community_" + getCommunity().getId();
-        } else {
-            return "no_community";
-        }
+        return username;
     }
     public void setPushTag(String pushTag) {
         this.pushTag = pushTag;
@@ -173,12 +168,7 @@ public class UserAPIDTO {
     public void setCity(CityAPIDTO city) {
         this.city = city;
     }
-    public CommunityAPIDTO getCommunity() {
-        return community;
-    }
-    public void setCommunity(CommunityAPIDTO community) {
-        this.community = community;
-    }
+   
     public String getPushId() {
         return pushId;
     }

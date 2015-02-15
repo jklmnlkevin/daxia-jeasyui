@@ -10,11 +10,14 @@ import com.google.common.collect.Lists;
 public class CodeDeleteUtils {
 	static List<String> deleteList = new ArrayList<String>();
 	static {
-		deleteList.add("src/main/java/com/daxia/webchat/model/{model}.java");
-		deleteList.add("src/main/java/com/daxia/webchat/dao/{model}DAO.java");
-		deleteList.add("src/main/java/com/daxia/webchat/service/{model}Service.java");
-		deleteList.add("src/main/java/com/daxia/webchat/web/controller/admin/Admin{model}Controller.java");
-		deleteList.add("src/main/java/com/daxia/webchat/dto/{model}DTO.java");
+		deleteList.add("src/main/java/com/daxia/wy/model/{model}.java");
+		deleteList.add("src/main/java/com/daxia/wy/dao/{model}DAO.java");
+		deleteList.add("src/main/java/com/daxia/wy/service/{model}Service.java");
+		deleteList.add("src/main/java/com/daxia/wy/web/controller/admin/Admin{model}Controller.java");
+		deleteList.add("src/main/java/com/daxia/wy/web/controller/m/M{model}Controller.java");
+		deleteList.add("src/main/java/com/daxia/wy/dto/{model}DTO.java");
+		deleteList.add("src/main/java/com/daxia/wy/dto/api/{model}APIDTO.java");
+		deleteList.add("src/main/java/com/daxia/wy/dto/api/info/{model}InfoAPIDTO.java");
 		deleteList.add("src/main/webapp/WEB-INF/jsp/admin/{model}/{model}_list.jsp");
 		deleteList.add("src/main/webapp/WEB-INF/jsp/admin/{model}/{model}_detail.jsp");
 	}
@@ -25,20 +28,39 @@ public class CodeDeleteUtils {
 		 //String model = scanner.nextLine();
 //		String model = "Kevin";
 		List<String> models = Lists.newArrayList();
-		models.add("Example");
-//		models.add("Sleep");
-		models.add("Sleep");
-		models.add("StoreBaseModel");
-		models.add("StoreImage");
-		models.add("StoreImageType");
-		models.add("SystemMessage");
-		models.add("Topic");
-		models.add("TopicComment");
-		models.add("WxResult");
-		models.add("");
-		models.add("");
-		models.add("");
-		models.add("");
+		models.add("advise");
+		models.add("advisereply");
+		models.add("article");
+		models.add("building");
+		models.add("businesses");
+		models.add("category");
+		models.add("community");
+		models.add("communityaddapply");
+		models.add("convenience");
+		models.add("doorplate");
+		models.add("feeitem");
+		models.add("housekeeping");
+		models.add("keyword");
+		models.add("nature");
+		models.add("noticereply");
+		models.add("order");
+		models.add("orderitem");
+		models.add("payrecord");
+		models.add("product");
+		models.add("question");
+		models.add("questionreply");
+		models.add("repair");
+		models.add("repair_state");
+		models.add("repairhistory");
+		models.add("repairreply");
+		models.add("reply");
+		models.add("residential_quarters");
+		models.add("servicetype");
+		models.add("store");
+		models.add("systemmessage");
+		models.add("topic");
+		models.add("topicreply");
+
 		
 		
 		

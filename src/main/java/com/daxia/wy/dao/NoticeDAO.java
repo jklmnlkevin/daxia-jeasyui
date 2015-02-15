@@ -43,18 +43,6 @@ public class NoticeDAO extends GenericDAOHibernate<Notice> {
             hql.append(" and n.title like ? ");
             paras.add("%" + dto.getTitle() + "%");
         }					
-        if (dto.getStore() != null) {
-        	if (dto.getStore().getId() != null) {
-	            hql.append(" and n.store.id = ? ");
-	            paras.add(dto.getStore().getId());
-        	}
-        }			
-        if (dto.getCommunity() != null) {
-            if (dto.getCommunity().getId() != null) {
-                hql.append(" and n.community.id = ? ");
-                paras.add(dto.getCommunity().getId());
-            }
-        }
         
         if (dto.isFindPublished()) {
             hql.append(" and n.isPublished = true ");

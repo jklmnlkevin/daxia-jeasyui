@@ -23,7 +23,6 @@ import com.daxia.core.common.Sex;
 import com.daxia.core.common.UserType;
 import com.daxia.wy.common.ICommunityRelatedModel;
 import com.daxia.wy.model.City;
-import com.daxia.wy.model.Community;
 import com.daxia.wy.model.District;
 import com.daxia.wy.model.Province;
 
@@ -106,12 +105,6 @@ public class User extends BaseModel implements UserDetails, ICommunityRelatedMod
 	 */
 	@Column(name = "password")
     private String password;
-	/**
-	 * 小区
-	 */
-	@ManyToOne
-	@JoinColumn(name = "community_id")
-    private Community community;
 
 	/**
 	 * push id
@@ -407,20 +400,6 @@ public class User extends BaseModel implements UserDetails, ICommunityRelatedMod
     	this.city = city;
     }
 	
-	/** 
-	 * 获取值：小区
-	 */
-	public Community getCommunity() {
-    	return community;
-    }
-	
-	/** 
-	 * 设置值：小区
-	 */    
-    public void setCommunity(Community community) {
-    	this.community = community;
-    }
-
     public String getIdCard() {
         return idCard;
     }

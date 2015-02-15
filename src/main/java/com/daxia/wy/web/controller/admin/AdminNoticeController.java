@@ -5,26 +5,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.daxia.core.common.CallbackType;
 import com.daxia.core.common.Log;
 import com.daxia.core.dto.JsonResultDTO;
 import com.daxia.core.service.UserService;
 import com.daxia.core.support.Page;
 import com.daxia.core.web.controller.BaseController;
 import com.daxia.wy.dto.NoticeDTO;
-import com.daxia.wy.dto.NoticeReplyDTO;
-import com.daxia.wy.service.NoticeReplyService;
 import com.daxia.wy.service.NoticeService;
 
 /**
@@ -40,8 +34,6 @@ public class AdminNoticeController extends BaseController {
 	 */
 	@Autowired
 	private NoticeService noticeService;
-	@Autowired
-	private NoticeReplyService noticeReplyService;
 	@Autowired
 	private UserService userService;
 	
@@ -139,36 +131,4 @@ public class AdminNoticeController extends BaseController {
 		return "admin/core/notice/notice_search";
 	}
     
-    @RequestMapping(value = "/reply")
-    public String reply(Map<String, Object> map, Long id) {
-        NoticeDTO dto = noticeService.load(id);
-        map.put("n", dto);
-        
-        NoticeReplyDTO replyDTO = new NoticeReplyDTO();
-        replyDTO.setNotice(dto);
-        
-        List<NoticeReplyDTO> replies = noticeReplyService.find(replyDTO, null);
-        map.put("replies", replies);
-        return "admin/notice/notice_reply";
-    }
-    
-    @ResponseBody
-    @RequestMapping(value = "/replySubmit", method = RequestMethod.POST)
-    public String replySubmit(HttpServletRequest request, JsonResultDTO resultDTO, NoticeReplyDTO replyContentDTO, Map<String, Object> map) {
-        if (replyContentDTO.getParentNoticeReply() != null) {
-            if (replyContentDTO.getParentNoticeReply().getId() == null) {
-                replyContentDTO.setParentNoticeReply(null);
-            }
-        }
-        NoticeDTO noticeDTO = noticeService.load(replyContentDTO.getNotice().getId());
-        replyContentDTO.setFloor(noticeDTO.getCurrentFloor() + 1);
-        noticeDTO.setCurrentFloor(noticeDTO.getCurrentFloor() + 1);
-        noticeReplyService.create(replyContentDTO);
-        noticeService.updateAllFields(noticeDTO);
-        resultDTO.setCallbackType(CallbackType.forward);
-        resultDTO.setForwardUrl(request.getSession().getAttribute("ctx") + "/admin/notice/reply?id=" + 
-        replyContentDTO.getNotice().getId() + 
-        "&navTabId=" + resultDTO.getNavTabId());
-        return okAndRefresh(resultDTO);
-    }
 }

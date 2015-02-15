@@ -24,15 +24,11 @@ import com.daxia.core.service.SystemConfigCache;
 import com.daxia.core.service.SystemConfigService;
 import com.daxia.core.web.controller.BaseController;
 import com.daxia.wy.dto.PushDTO;
-import com.daxia.wy.service.CategoryService;
 
 @Controller
 @RequestMapping(value = "/test", produces="text/html;charset=UTF-8")
 public class TestController extends BaseController {
     private static Logger logger = Logger.getLogger(TestController.class);
-    
-	@Autowired
-	private CategoryService categoryService;
 	private static String localImageFileDir = "/tmp";
 	
 	@RequestMapping(value = "upload")
@@ -81,7 +77,6 @@ public class TestController extends BaseController {
 	
 	@RequestMapping(value = "createCategory", method = RequestMethod.GET)
     public String createCategory() throws Exception {
-	    categoryService.createCategory();
         return "test/test_push";
     }
 	

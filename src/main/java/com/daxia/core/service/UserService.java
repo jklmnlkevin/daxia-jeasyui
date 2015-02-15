@@ -30,7 +30,6 @@ import com.daxia.wy.dto.CityDTO;
 import com.daxia.wy.dto.DistrictDTO;
 import com.daxia.wy.dto.ProvinceDTO;
 import com.daxia.wy.model.City;
-import com.daxia.wy.model.Community;
 import com.daxia.wy.model.District;
 import com.daxia.wy.model.Province;
 import com.daxia.wy.service.SMSService;
@@ -386,8 +385,6 @@ public class UserService {
     
     public UserDTO findEstateManager(Long communityId) {
         UserDTO query = new UserDTO();
-        query.setCommunity(new Community());
-        query.getCommunity().setId(communityId);
         query.setOnlyFindType(UserType.EstateManager.getValue());
         User user = userDAO.findOne(query);
         return toDTO(user);

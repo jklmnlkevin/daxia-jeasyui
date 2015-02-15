@@ -73,10 +73,8 @@ public class NoticeService {
 			return null;
 		}
 		
-		UserDTO userDTO = userService.findEstateManager(model.getCommunity().getId());
 		
 		NoticeDTO dto = BeanMapper.map(model, NoticeDTO.class);
-		dto.setPublisher(userDTO.getUsername());
 		return dto;
 	}
 	
@@ -145,7 +143,6 @@ public class NoticeService {
 	    push.setId(notice.getId().toString());
 	    push.setTitle(notice.getTitle());
 	    
-	    pushService.pushByCommunity(push, notice.getCommunity().getId());
     }
 	
 	@Autowired
