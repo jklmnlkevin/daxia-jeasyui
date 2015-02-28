@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -21,9 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.daxia.core.common.Sex;
 import com.daxia.core.common.UserType;
-import com.daxia.wy.model.City;
-import com.daxia.wy.model.District;
-import com.daxia.wy.model.Province;
 
 /**
  * User
@@ -47,94 +43,13 @@ public class User extends BaseModel implements UserDetails {
 	 */
 	@Column(name = "username")
     private String username;
-	/**
-	 * 用户卡号
-	 */
-    private String idCard;
-	/**
-	 * 电话
-	 */
-	@Column(name = "telephone")
-    private String telephone;
-	/**
-	 * 经度
-	 */
-	@Column(name = "longitude")
-    private String longitude;
-	/**
-	 * 纬度
-	 */
-	@Column(name = "latitude")
-    private String latitude;
-	/**
-	 * 楼号
-	 */
-	@Column(name = "building")
-    private String building;
-	/**
-	 * 门牌号
-	 */
-	@Column(name = "doorplate")
-    private String doorplate;
-	/**
-	 * 业主
-	 */
-	@Column(name = "owner")
-    private String owner;
-	/**
-	 * 业主卡号
-	 */
-    private String ownerIdCard;
-	/**
-	 * 省份
-	 */
-	@ManyToOne
-	@JoinColumn(name = "province_id")
-    private Province province;
-	/**
-	 * 地区
-	 */
-	@ManyToOne
-	@JoinColumn(name = "district_id")
-    private District district;
-	/**
-	 * 城市
-	 */
-	@ManyToOne
-	@JoinColumn(name = "city_id")
-    private City city;
+	
 	/**
 	 * 密码
 	 */
 	@Column(name = "password")
     private String password;
 
-	/**
-	 * push id
-	 */
-	private String pushId;
-	/**
-	 * 是否已认证
-	 */
-	@Column(name = "isAuthenticated")
-	private boolean authenticated;
-	/**
-	 * 是否接受物业缴费提醒
-	 */
-	@Column(name = "isReceivePayRemind")
-	private boolean receivePayRemind;
-	/**
-	 * 是否公开手机号码
-	 */
-	@Column(name = "isOpenMobile")
-	private boolean openMobile;
-	/**
-	 * 是否接收通知公告
-	 */
-	@Column(name = "isReceiveNotice")
-	private boolean receiveNotice = true;
-	
-	private String authenticateImages;
 	
 	/**
 	 * 用户类型
@@ -149,6 +64,7 @@ public class User extends BaseModel implements UserDetails {
 	 */
 	private int sex = Sex.Unknow.value();
 	
+	private String mobile;
 	 
     @Transient
     private boolean accountNonExpired = true;
@@ -277,156 +193,7 @@ public class User extends BaseModel implements UserDetails {
 
 
 	
-	/** 
-	 * 获取值：电话
-	 */
-	public String getTelephone() {
-    	return telephone;
-    }
 	
-	/** 
-	 * 设置值：电话
-	 */    
-    public void setTelephone(String telephone) {
-    	this.telephone = telephone;
-    }
-	
-	/** 
-	 * 获取值：经度
-	 */
-	public String getLongitude() {
-    	return longitude;
-    }
-	
-	/** 
-	 * 设置值：经度
-	 */    
-    public void setLongitude(String longitude) {
-    	this.longitude = longitude;
-    }
-	
-	/** 
-	 * 获取值：纬度
-	 */
-	public String getLatitude() {
-    	return latitude;
-    }
-	
-	/** 
-	 * 设置值：纬度
-	 */    
-    public void setLatitude(String latitude) {
-    	this.latitude = latitude;
-    }
-	
-	/** 
-	 * 获取值：楼号
-	 */
-	public String getBuilding() {
-    	return building;
-    }
-	
-	/** 
-	 * 设置值：楼号
-	 */    
-    public void setBuilding(String building) {
-    	this.building = building;
-    }
-	
-	/** 
-	 * 获取值：门牌号
-	 */
-	public String getDoorplate() {
-    	return doorplate;
-    }
-	
-	/** 
-	 * 设置值：门牌号
-	 */    
-    public void setDoorplate(String doorplate) {
-    	this.doorplate = doorplate;
-    }
-	
-	/** 
-	 * 获取值：业主
-	 */
-	public String getOwner() {
-    	return owner;
-    }
-	
-	/** 
-	 * 设置值：业主
-	 */    
-    public void setOwner(String owner) {
-    	this.owner = owner;
-    }
-	
-	/** 
-	 * 获取值：省份
-	 */
-	public Province getProvince() {
-    	return province;
-    }
-	
-	/** 
-	 * 设置值：省份
-	 */    
-    public void setProvince(Province province) {
-    	this.province = province;
-    }
-	
-	/** 
-	 * 获取值：地区
-	 */
-	public District getDistrict() {
-    	return district;
-    }
-	
-	/** 
-	 * 设置值：地区
-	 */    
-    public void setDistrict(District district) {
-    	this.district = district;
-    }
-	
-	/** 
-	 * 获取值：城市
-	 */
-	public City getCity() {
-    	return city;
-    }
-	
-	/** 
-	 * 设置值：城市
-	 */    
-    public void setCity(City city) {
-    	this.city = city;
-    }
-	
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    public String getOwnerIdCard() {
-        return ownerIdCard;
-    }
-
-    public void setOwnerIdCard(String ownerIdCard) {
-        this.ownerIdCard = ownerIdCard;
-    }
-
-    public String getPushId() {
-        return pushId;
-    }
-
-    public void setPushId(String pushId) {
-        this.pushId = pushId;
-    }
-
     public int getUserType() {
         return userType;
     }
@@ -443,22 +210,7 @@ public class User extends BaseModel implements UserDetails {
         this.headImage = headImage;
     }
 
-    public boolean isAuthenticated() {
-        return authenticated;
-    }
-
-    public void setAuthenticated(boolean authenticated) {
-        this.authenticated = authenticated;
-    }
-
-    public boolean isReceiveNotice() {
-        return receiveNotice;
-    }
-
-    public void setReceiveNotice(boolean receiveNotice) {
-        this.receiveNotice = receiveNotice;
-    }
-
+   
     public int getSex() {
         return sex;
     }
@@ -466,29 +218,16 @@ public class User extends BaseModel implements UserDetails {
     public void setSex(int sex) {
         this.sex = sex;
     }
-
-    public boolean isReceivePayRemind() {
-        return receivePayRemind;
+    public String getMobile() {
+        return mobile;
+    }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 
-    public void setReceivePayRemind(boolean receivePayRemind) {
-        this.receivePayRemind = receivePayRemind;
-    }
-
-    public boolean isOpenMobile() {
-        return openMobile;
-    }
-
-    public void setOpenMobile(boolean openMobile) {
-        this.openMobile = openMobile;
-    }
-
-    public String getAuthenticateImages() {
-        return authenticateImages;
-    }
-
-    public void setAuthenticateImages(String authenticateImages) {
-        this.authenticateImages = authenticateImages;
-    }
+    
     
 }

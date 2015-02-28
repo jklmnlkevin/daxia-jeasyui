@@ -48,16 +48,15 @@ public class UserDAO extends GenericDAOHibernate<User> implements Serializable {
             hql.append(" and n.password = ? ");
             paras.add(dto.getPassword());
         }
-        if (StringUtils.isNotBlank(dto.getTelephone())) {
-            hql.append(" and n.telephone = ? ");
-            paras.add(dto.getTelephone());
+        if (StringUtils.isNotBlank(dto.getMobile())) {
+            hql.append(" and n.mobile = ? ");
+            paras.add(dto.getMobile());
         }
         if (dto.getOnlyFindType() != null) {
             hql.append(" and n.userType = ? ");
             paras.add(dto.getOnlyFindType());
         }
        
-        long start = System.currentTimeMillis();
         List<User> users = super.find(hql.toString(), paras.toArray(), page);
         return users;
     }

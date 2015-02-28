@@ -109,53 +109,6 @@ public class MUserController extends MBaseController {
         return toJson(obj);
     }
     
-    @ResponseBody
-    @RequestMapping("updateReceiveNotice")
-    public String updateReceiveNotice(HttpServletRequest request, Long id, boolean receiveNotice) throws Exception {
-        UserDTO user = userService.load(id);
-        user.setReceiveNotice(receiveNotice);
-        userService.updateAllFields(user);
-        return toJson("修改成功");
-    }
-    
-    @ResponseBody
-    @RequestMapping("updateReceivePayRemind")
-    public String updateReceivePayRemind(HttpServletRequest request, Long id, boolean receivePayRemind) throws Exception {
-        UserDTO user = userService.load(id);
-        user.setReceivePayRemind(receivePayRemind);
-        userService.updateAllFields(user);
-        return toJson("修改成功");
-    }
-    
-    @ResponseBody
-    @RequestMapping("updateOpenMobile")
-    public String updateOpenMobile(HttpServletRequest request, Long id, boolean openMobile) throws Exception {
-        UserDTO user = userService.load(id);
-        user.setOpenMobile(openMobile);
-        userService.updateAllFields(user);
-        return toJson("修改成功");
-    }
-
-    @Log(operation = "修改手机号码")
-    @ResponseBody
-    @RequestMapping("updateTelephone")
-    public String updateTelephone(HttpServletRequest request, Long id, String telephone) throws Exception {
-        UserDTO user = userService.load(id);
-        ValidationUtils.assertTrue(StringUtils.isNotBlank(telephone) && telephone.trim().length() >= 11, "请输入正确的手机号");
-        user.setTelephone(telephone);
-        userService.updateAllFields(user);
-        return toJson("修改成功");
-    }
-    
-    @ResponseBody
-    @RequestMapping("authenticate")
-    public String authenticate(HttpServletRequest request, Long id, String images) throws Exception {
-        UserDTO user = userService.load(id);
-        user.setAuthenticateImages(images);
-        userService.updateAllFields(user);
-        return toJson("提交成功");
-    }
-    
     @Log(operation = "changeAddress")
     @ResponseBody
     @RequestMapping("changeAddress")
@@ -172,14 +125,7 @@ public class MUserController extends MBaseController {
         ValidationUtils.assertTrue(StringUtils.isNotBlank(building), "楼栋不能为空");
         ValidationUtils.assertTrue(StringUtils.isNotBlank(doorplate), "门牌号不能为空");
         
-        DistrictDTO district = districtService.load(districtId);
-        
         UserDTO user = userService.load(id);
-        user.setDistrict(district);
-        user.setCity(district.getCity());
-        user.setProvince(district.getCity().getProvince());
-        user.setBuilding(building);
-        user.setDoorplate(doorplate);
         
         userService.updateAllFields(user);
         

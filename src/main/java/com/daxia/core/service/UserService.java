@@ -108,8 +108,8 @@ public class UserService {
 		ValidationUtils.assertTrue(StringUtils.isNotBlank(model.getPassword()) && dto.getPassword().length() >= 6, "密码不能少于6位");
 		model.setPassword(passwordEncoder.encodePassword(model.getPassword(), model.getUsername()));
 		
-		if (StringUtils.isNotBlank(model.getTelephone())) {
-		    ValidationUtils.assertTrue(isMobileRegistered(model.getTelephone()) == false, "该手机号码已经被注册");
+		if (StringUtils.isNotBlank(model.getMobile())) {
+		    ValidationUtils.assertTrue(isMobileRegistered(model.getMobile()) == false, "该手机号码已经被注册");
 		}
 		Long userId = userDAO.create(model);
 		
@@ -282,7 +282,7 @@ public class UserService {
             return;
         }
         
-        String mobile = user.getTelephone();
+        String mobile = user.getMobile();
         if (!isValidMobile(mobile)) {
             return;
         }
@@ -330,7 +330,7 @@ public class UserService {
     
     public boolean isMobileRegistered(String mobile) {
         UserDTO dto = new UserDTO();
-        dto.setTelephone(mobile);
+        dto.setMobile(mobile);
         User user = userDAO.findOne(dto);
         UserDTO findUser = toDTO(user);
         return findUser != null;
@@ -338,7 +338,7 @@ public class UserService {
 
     public void resetPassword(String mobile, String password) {
         UserDTO dto = new UserDTO();
-        dto.setTelephone(mobile);
+        dto.setMobile(mobile);
         User user = userDAO.findOne(dto);
         if (user != null) {
             password = passwordEncoder.encodePassword(password, user.getUsername());

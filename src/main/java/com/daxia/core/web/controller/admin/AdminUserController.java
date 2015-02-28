@@ -55,6 +55,7 @@ public class AdminUserController extends BaseController {
 		if (id != null) {
 			UserDTO dto = userService.load(id);
 			map.put("user", dto);
+			/*
 			if (dto.getProvince() != null) {
 				CityDTO cityDTO = new CityDTO();
 				cityDTO.setProvince(dto.getProvince());
@@ -64,7 +65,7 @@ public class AdminUserController extends BaseController {
 				DistrictDTO districtDTO = new DistrictDTO();
 				districtDTO.setCity(dto.getCity());
 				map.put("districts", districtService.find(districtDTO, null));
-			}
+			} */
 		} else {
 			map.put("type", type);
 		}
@@ -103,21 +104,8 @@ public class AdminUserController extends BaseController {
 		    UserDTO model = userService.load(dto.getId());
 		    // 公共字段
 		    model.setUserType(dto.getUserType());
-		    model.setTelephone(dto.getTelephone());
-		    model.setProvince(dto.getProvince());
-		    model.setCity(dto.getCity());
-		    model.setDistrict(dto.getDistrict());
 		    
 		    // 普通用户的话有更多字段
-		    model.setIdCard(dto.getIdCard());
-		    model.setLatitude(dto.getLatitude());
-		    model.setLongitude(dto.getLongitude());
-		    model.setBuilding(dto.getBuilding());
-		    model.setDoorplate(dto.getDoorplate());
-		    model.setOwner(dto.getOwner());
-		    model.setOwnerIdCard(dto.getOwnerIdCard());
-		    model.setAuthenticated(dto.isAuthenticated());
-		    model.setReceiveNotice(dto.isReceiveNotice());
 		    
 		    userService.updateAllFields(model);
 		}
