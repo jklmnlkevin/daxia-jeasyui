@@ -59,7 +59,7 @@ CREATE TABLE `authority` (
   `name` varchar(100) DEFAULT NULL,
   `code` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=382 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=357 DEFAULT CHARSET=utf8;
 
 /*Data for the table `authority` */
 
@@ -130,7 +130,7 @@ CREATE TABLE `menu` (
   `seq` int(11) DEFAULT NULL,
   `show` tinyint(1) DEFAULT '1' COMMENT '是否显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
@@ -152,7 +152,7 @@ CREATE TABLE `notice` (
   `publisher` varchar(50) DEFAULT NULL COMMENT '发布人',
   `currentFloor` int(11) DEFAULT '0' COMMENT '当前回复到了第几楼',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Data for the table `notice` */
 
@@ -184,7 +184,7 @@ CREATE TABLE `role` (
   `name` varchar(50) DEFAULT NULL COMMENT '角色',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 /*Data for the table `role` */
 
@@ -199,7 +199,7 @@ CREATE TABLE `roleauthority` (
   `role_id` bigint(20) DEFAULT NULL,
   `authority_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5651 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5626 DEFAULT CHARSET=utf8;
 
 /*Data for the table `roleauthority` */
 
@@ -237,7 +237,7 @@ CREATE TABLE `systemlog` (
   `errorMessage` text COMMENT '错误消息',
   `ip` varchar(20) DEFAULT NULL COMMENT 'IP',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=770 DEFAULT CHARSET=utf8 COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志';
 
 /*Data for the table `systemlog` */
 
@@ -248,35 +248,18 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) DEFAULT NULL COMMENT '用户名',
-  `idCard` varchar(18) DEFAULT NULL COMMENT '身份证',
-  `telephone` varchar(11) DEFAULT NULL COMMENT '电话',
-  `longitude` varchar(20) DEFAULT NULL COMMENT '经度',
-  `latitude` varchar(20) DEFAULT NULL COMMENT '纬度',
-  `building` varchar(20) DEFAULT NULL COMMENT '楼号',
-  `doorplate` varchar(20) DEFAULT NULL COMMENT '门牌号',
-  `owner` varchar(10) DEFAULT NULL COMMENT '业主姓名',
-  `ownerIdCard` varchar(18) DEFAULT NULL COMMENT '业主卡号',
-  `province_id` bigint(20) DEFAULT NULL COMMENT '省份',
-  `district_id` bigint(20) DEFAULT NULL COMMENT '地区',
-  `city_id` bigint(20) DEFAULT NULL COMMENT '城市',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '电话',
   `password` varchar(60) DEFAULT NULL COMMENT '密码',
-  `community_id` bigint(20) DEFAULT NULL COMMENT '小区',
-  `pushId` varchar(60) DEFAULT NULL COMMENT 'PushID',
-  `isAuthenticated` tinyint(4) DEFAULT NULL COMMENT '是否已认证',
-  `isOpenMobile` tinyint(4) DEFAULT NULL COMMENT '是否公开手机号码',
-  `isReceiveNotice` tinyint(1) DEFAULT NULL COMMENT '是否接收通知公告',
   `userType` int(11) DEFAULT NULL COMMENT '用户类型',
   `headImage` varchar(100) DEFAULT NULL COMMENT '用户头像',
-  `sex` int(11) DEFAULT NULL COMMENT '性别,0为男，1为女',
-  `authenticateImages` varchar(1024) DEFAULT NULL COMMENT '认证图片数组',
-  `isReceivePayRemind` tinyint(4) DEFAULT NULL COMMENT '是否接受物业交费提醒',
+  `sex` int(11) DEFAULT '0' COMMENT '性别,0为男，1为女',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`idCard`,`telephone`,`longitude`,`latitude`,`building`,`doorplate`,`owner`,`ownerIdCard`,`province_id`,`district_id`,`city_id`,`password`,`community_id`,`pushId`,`isAuthenticated`,`isOpenMobile`,`isReceiveNotice`,`userType`,`headImage`,`sex`,`authenticateImages`,`isReceivePayRemind`) values (1,'admin','','18612341234','','','13','14','','',20,1798,181,'aa7b043b818888f5868936482a6f08be',3,'',0,0,1,2,'2333c296-a306-40aa-a743-89c86cebfe90.bmp',2,NULL,0),(43,'咸嘉新村物业',NULL,'15074921644',NULL,NULL,NULL,NULL,NULL,NULL,20,1798,181,'540ebb73b342b9b2f02fe1d162abba38',3,'',0,0,1,3,'',2,NULL,0),(44,'朱磊','','15074921643','','','13','14','','',20,1798,181,'1ea656c7df8220d6096ee802a875c413',3,'',0,0,0,0,'16d1ddd4-024e-4025-bf1a-4ecc002c474e.jpg',2,NULL,0),(45,'jonathan',NULL,'15111348520',NULL,NULL,'18','502',NULL,NULL,20,1798,181,'76008adb975218dba047d7139e351ee1',3,NULL,0,0,1,0,'16d1ddd4-024e-4025-bf1a-4ecc002c474e.jpg',0,NULL,0),(46,'lei',NULL,'18674253698',NULL,NULL,'18','32',NULL,NULL,20,1798,181,'1b8fca7ea104ee27b258adfd265d2167',3,NULL,0,0,1,0,'cd305288-4a8c-4298-9115-2e05459e6e62.jpg',0,NULL,0),(47,'uuu',NULL,'18654785235',NULL,NULL,'18','18',NULL,NULL,20,1798,181,'89e54de7497dc56c717062d6fb386037',3,NULL,0,0,1,0,NULL,0,NULL,0),(48,'lll','','18674580987','','','13','14','','',NULL,1798,181,'06e5a8b45376ae41c997c73da01d4c26',3,NULL,0,0,0,0,NULL,0,NULL,0),(50,'阳明山庄物业',NULL,'15073322894',NULL,NULL,NULL,NULL,NULL,NULL,20,1798,181,'e72fbfa982fa9e354e709f2f6ed9595e',4,NULL,0,0,1,3,NULL,2,NULL,0),(51,'谭鑫',NULL,'18508499494',NULL,NULL,'9','502',NULL,NULL,20,1798,181,'b447ff41028ab375a10ea21785fd3bbf',4,NULL,0,0,1,0,NULL,0,NULL,0),(52,'邓帅',NULL,'18692680990',NULL,NULL,'9','603',NULL,NULL,20,1798,181,'f8bdf010b759d62a64c75231b0511908',3,NULL,0,0,1,0,NULL,0,NULL,0),(53,'wangshu',NULL,'18075170707',NULL,NULL,'1','101',NULL,NULL,20,1798,181,'9a211ef189cdb5e5e9d2b66fda4e010e',3,NULL,0,0,1,0,NULL,0,NULL,0);
+insert  into `user`(`id`,`username`,`mobile`,`password`,`userType`,`headImage`,`sex`) values (1,'admin','18612341234','aa7b043b818888f5868936482a6f08be',2,'2333c296-a306-40aa-a743-89c86cebfe90.bmp',2),(43,'咸嘉新村物业','15074921644','540ebb73b342b9b2f02fe1d162abba38',3,'',2),(44,'朱磊','15074921643','1ea656c7df8220d6096ee802a875c413',0,'16d1ddd4-024e-4025-bf1a-4ecc002c474e.jpg',2),(45,'jonathan','15111348520','76008adb975218dba047d7139e351ee1',0,'16d1ddd4-024e-4025-bf1a-4ecc002c474e.jpg',0),(46,'lei','18674253698','1b8fca7ea104ee27b258adfd265d2167',0,'cd305288-4a8c-4298-9115-2e05459e6e62.jpg',0),(47,'uuu','18654785235','89e54de7497dc56c717062d6fb386037',0,NULL,0),(48,'lll','18674580987','06e5a8b45376ae41c997c73da01d4c26',0,NULL,0),(50,'阳明山庄物业','15073322894','e72fbfa982fa9e354e709f2f6ed9595e',3,NULL,2),(51,'谭鑫','18508499494','b447ff41028ab375a10ea21785fd3bbf',0,NULL,0),(52,'邓帅','18692680990','f8bdf010b759d62a64c75231b0511908',0,NULL,0),(53,'wangshu','18075170707','9a211ef189cdb5e5e9d2b66fda4e010e',0,NULL,0);
 
 /*Table structure for table `userrole` */
 
