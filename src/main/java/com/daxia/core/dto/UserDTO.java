@@ -20,13 +20,22 @@ import com.daxia.core.model.User;
  */
 public class UserDTO extends User {
     private Integer onlyFindType;
-
+    private boolean dontFindDeleted = true;
+    
     public Integer getOnlyFindType() {
         return onlyFindType;
     }
 
     public void setOnlyFindType(Integer onlyFindType) {
         this.onlyFindType = onlyFindType;
+    }
+
+    public boolean isDontFindDeleted() {
+        return dontFindDeleted;
+    }
+
+    public void setDontFindDeleted(boolean dontFindDeleted) {
+        this.dontFindDeleted = dontFindDeleted;
     }
     
 }

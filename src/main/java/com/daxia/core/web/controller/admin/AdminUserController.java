@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.LogModule;
 import com.daxia.core.common.Module;
@@ -73,7 +75,8 @@ public class AdminUserController extends BaseController {
 		map.put("userTypes", UserType.values());
 		List<ProvinceDTO> provinces = provinceService.find(new ProvinceDTO(), null);
 		map.put("provinces", provinces);
-		return "admin/core/user/user_detail";
+		// return "admin/core/user/user_detail";
+		return "admin/user/user_detail";
 	}
 	
 	@RequestMapping(value = "/detailRole")
@@ -148,8 +151,20 @@ public class AdminUserController extends BaseController {
 		// 这个数据是保存查询条件的
 		map.put("user", dto);
 		map.put("userTypes", UserType.values());
-		return "admin/core/user/user_list";
+		// return "admin/core/user/user_list";
+		return "admin/user/user_list";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/datagrid")
+    @PreAuthorize("hasRole('user.list')")
+    public String datagrid(UserDTO dto, Map<String, Object> map, Page page) {
+        List<UserDTO> dtos = userService.list(dto, page);
+        JSONObject json = new JSONObject();
+        json.put("total", page.getTotalRecords());
+        json.put("rows", JSONArray.toJSON(dtos));
+        return json.toJSONString();
+    }
 	
 	@ResponseBody
 	@RequestMapping("autocomplete")

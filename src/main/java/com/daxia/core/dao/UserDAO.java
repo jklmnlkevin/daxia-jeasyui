@@ -8,6 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import com.daxia.core.common.UserType;
 import com.daxia.core.dto.UserDTO;
 import com.daxia.core.model.User;
 import com.daxia.core.support.Page;
@@ -57,6 +58,9 @@ public class UserDAO extends GenericDAOHibernate<User> implements Serializable {
             paras.add(dto.getOnlyFindType());
         }
        
+        if (dto.isDontFindDeleted()) {
+            hql.append(" and n.userType <> -1 ");
+        }
         List<User> users = super.find(hql.toString(), paras.toArray(), page);
         return users;
     }
