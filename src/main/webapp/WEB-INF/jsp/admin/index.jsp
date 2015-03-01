@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>大侠管理系统</title>
+    <title>后台管理系统</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/k.css">
@@ -112,42 +112,18 @@
 
 <div data-options="region:'center',title:''">
     <div class="easyui-tabs" data-options="fit:true,border:false,plain:true" id="tt">
-        <div title="About" data-options="closable:false, refresh:true" style="padding:10px">
-		        <div id="p" class="easyui-panel" title="Panel Tools" style="width:600px;height:200px;padding:10px;margin-bottom:10px;"
+        <div title="控制台" data-options="closable:false, refresh:true" style="padding:10px">
+		        <div id="p" class="easyui-panel" title="今日新增用户" style="width:600px;height:200px;padding:10px;margin-bottom:10px;"
 		                data-options="iconCls:'icon-save',collapsible:true,minimizable:true,maximizable:true,closable:true">
-		            <p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
+		            <p style="font-size:14px">今日新增用户<span style="color:red">25</span>位，其中</p>
 		            <ul>
-		                <li>easyui is a collection of user-interface plugin based on jQuery.</li>
-		                <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
-		                <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
-		                <li>complete framework for HTML5 web page.</li>
-		                <li>easyui save your time and scales while developing your products.</li>
-		                <li>easyui is very easy but powerful.</li>
+		                <li>来自微信的有<span style="color:red">10</span>位.</li>
+		                <li>来自网站的有<span style="color:red">15</span>位.</li>
 		            </ul>
 		        </div>
-		        <div id="p" class="easyui-panel" title="Panel Tools" style="width:600px;height:200px;padding:10px;margin-bottom:10px;"
+		        <div id="p" class="easyui-panel" title="今日新增订单" style="width:600px;height:450px;padding:10px;margin-bottom:10px;"
 		                data-options="iconCls:'icon-save',collapsible:true,minimizable:true,maximizable:true,closable:true">
-		            <p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
-		            <ul>
-		                <li>easyui is a collection of user-interface plugin based on jQuery.</li>
-		                <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
-		                <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
-		                <li>complete framework for HTML5 web page.</li>
-		                <li>easyui save your time and scales while developing your products.</li>
-		                <li>easyui is very easy but powerful.</li>
-		            </ul>
-		        </div>
-		        <div class="easyui-panel" title="Panel Tools" style="width:600px;height:200px;padding:10px;margin-bottom:10px;"
-		                data-options="iconCls:'icon-save',collapsible:true,minimizable:true,maximizable:true,closable:true">
-		            <p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
-		            <ul>
-		                <li>easyui is a collection of user-interface plugin based on jQuery.</li>
-		                <li>easyui provides essential functionality for building modem, interactive, javascript applications.</li>
-		                <li>using easyui you don't need to write many javascript code, you usually defines user-interface by writing some HTML markup.</li>
-		                <li>complete framework for HTML5 web page.</li>
-		                <li>easyui save your time and scales while developing your products.</li>
-		                <li>easyui is very easy but powerful.</li>
-		            </ul>
+		            <img src="${ctx }/res/images/order.jpg" style="width: 80%;">
 		        </div>
 		    
         </div>

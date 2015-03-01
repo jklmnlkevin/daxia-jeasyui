@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Full Layout - jQuery EasyUI Demo</title>
+    <title>管理后台</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/res/jeasyui/k.css">
