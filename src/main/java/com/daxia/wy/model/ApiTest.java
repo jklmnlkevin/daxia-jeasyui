@@ -1,10 +1,22 @@
 package com.daxia.wy.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.daxia.core.model.BaseModel;
 
@@ -37,7 +49,20 @@ public class ApiTest extends BaseModel {
 	 */
 	@Column(name = "url")
     private String url;
+
+	@Transient
+	private String fullUrl;
+    
+	private String exampleUrl;
+	private String exampleResponse;
+	private String requestMethod;
 	
+	@ManyToOne
+    @JoinColumn(name = "apimodule_id")
+    private ApiModule apiModule;
+	
+    @OneToMany(mappedBy="apiTest",cascade={CascadeType.ALL},fetch=FetchType.EAGER)  
+    private List<ApiTestParameter> apiTestParameters;
 	/** 
 	 * 获取值：id
 	 */
@@ -93,5 +118,62 @@ public class ApiTest extends BaseModel {
     public void setUrl(String url) {
     	this.url = url;
     }
-	
+
+    public ApiModule getApiModule() {
+        return apiModule;
+    }
+
+    public void setApiModule(ApiModule apiModule) {
+        this.apiModule = apiModule;
+    }
+
+    public List<ApiTestParameter> getApiTestParameters() {
+        return apiTestParameters;
+    }
+
+    public void setApiTestParameters(List<ApiTestParameter> apiTestParameters) {
+        this.apiTestParameters = apiTestParameters;
+    }
+    
+    public String getFullUrl() {
+        List<ApiTestParameter> parameters = getApiTestParameters();
+        if (CollectionUtils.isEmpty(parameters)) {
+            return getUrl();
+        }
+        
+        List<String> list = new ArrayList<String>();
+        for (ApiTestParameter p : parameters) {
+            list.add(p.getName() + "=");
+        }
+        return getUrl() + "?" + StringUtils.join(list, "&");
+    }
+
+    public String getExampleUrl() {
+        return exampleUrl;
+    }
+
+    public void setExampleUrl(String exampleUrl) {
+        this.exampleUrl = exampleUrl;
+    }
+
+    public String getExampleResponse() {
+        return exampleResponse;
+    }
+
+    public void setExampleResponse(String exampleResponse) {
+        this.exampleResponse = exampleResponse;
+    }
+
+    public void setFullUrl(String fullUrl) {
+        this.fullUrl = fullUrl;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+    
 }

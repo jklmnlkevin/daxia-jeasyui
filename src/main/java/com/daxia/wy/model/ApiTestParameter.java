@@ -45,6 +45,8 @@ public class ApiTestParameter extends BaseModel {
 	@Column(name = "isrequired")
     private boolean required;
 	
+	private String defaultValue;
+	
 	/** 
 	 * 获取值：id
 	 */
@@ -114,5 +116,13 @@ public class ApiTestParameter extends BaseModel {
     public void setRequired(boolean required) {
     	this.required = required;
     }
-	
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    
 }
