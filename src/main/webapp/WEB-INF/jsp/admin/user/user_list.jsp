@@ -43,13 +43,18 @@
 <script>
 var user_toolbar = new Array();
 // 新增按钮
+<sec:authorize ifAnyGranted="user.add">
 user_toolbar.push(k_toolbar_add('user'));
 user_toolbar.push('-');
+</sec:authorize>
 
 //删除按钮
+<sec:authorize ifAnyGranted="user.delete">
 user_toolbar.push(k_toolbar_delete('user'));
 user_toolbar.push('-');
+</sec:authorize>
 
+<sec:authorize ifAnyGranted="user.update">
 // 修改按钮
 user_toolbar.push({
     text:'修改',
@@ -77,7 +82,6 @@ user_toolbar.push({
                 text:'保存',
                 iconCls:'icon-ok',
                 handler:function(){
-                	alert('hi');
                     $('#user_detail_form').form('submit');
                 }
             },{
@@ -90,7 +94,7 @@ user_toolbar.push({
         });
     }
 });
-
+</sec:authorize>
 
 // 初始化 datagrid
 function init() {

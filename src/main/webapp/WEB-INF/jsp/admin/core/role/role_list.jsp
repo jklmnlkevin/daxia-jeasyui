@@ -53,7 +53,7 @@ role_toolbar.push({
     }
 });
 
-role_toolbar.push(toolbar_delete('role'));
+role_toolbar.push(k_toolbar_delete('role'));
 role_toolbar.push('-');
 
 

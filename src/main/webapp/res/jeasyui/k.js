@@ -69,8 +69,10 @@ function k_success(data) {
 	}
 	if (data.statusCode == 200) {
 		operateSuccess();
+		return true;
 	} else {
 		alert2(data.message);
+		return false;
 	}
 }
 
@@ -96,8 +98,10 @@ function k_toolbar_add(module) {
 	                handler:function(){
 	                    $('#' + module + '_detail_form').form('submit', {
 	                    	success:function(data) {
-	                    		k_success(data);
-	                    		$('#dd').dialog('close');
+	                    		var ok = k_success(data);
+	                    		if (ok) {
+	                    			$('#dd').dialog('close');
+	                    		}
 	                    	}
 	                    });
 	                }

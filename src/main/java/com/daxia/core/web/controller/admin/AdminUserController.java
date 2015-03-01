@@ -56,7 +56,7 @@ public class AdminUserController extends BaseController {
 	public String detail(Map<String, Object> map, Long id, Integer type) {
 		if (id != null) {
 			UserDTO dto = userService.load(id);
-			map.put("user", dto);
+			map.put("model", dto);
 			/*
 			if (dto.getProvince() != null) {
 				CityDTO cityDTO = new CityDTO();
