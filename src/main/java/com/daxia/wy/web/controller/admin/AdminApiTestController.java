@@ -3,6 +3,8 @@ package com.daxia.wy.web.controller.admin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,18 +12,24 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.daxia.core.common.Log;
 import com.daxia.core.common.SystemConfigType;
 import com.daxia.core.dto.JsonResultDTO;
 import com.daxia.core.support.Page;
 import com.daxia.core.web.controller.BaseController;
+import com.daxia.wy.dto.ApiModuleDTO;
 import com.daxia.wy.dto.ApiTestDTO;
+import com.daxia.wy.model.ApiTestParameter;
+import com.daxia.wy.service.ApiModuleService;
 import com.daxia.wy.service.ApiTestService;
 
 /**
@@ -38,6 +46,9 @@ public class AdminApiTestController extends BaseController {
 	@Autowired
 	private ApiTestService apiTestService;
 	
+	@Autowired
+	private ApiModuleService apiModuleService;
+	
 	/**
 	 * 详情页面。用来获得单个对象的具体信息的
 	 * @param map
@@ -48,8 +59,10 @@ public class AdminApiTestController extends BaseController {
 	public String detail(Map<String, Object> map, Long id) {
 		if (id != null) {
 			ApiTestDTO dto = apiTestService.load(id);
-			map.put("apiTest", dto);
+			map.put("model", dto);
 		}
+		List<ApiModuleDTO> apiModules =  apiModuleService.find(new ApiModuleDTO(), null);
+		map.put("apiModules", apiModules);
 		return "admin/apiTest/apiTest_detail";
 	}
 	
@@ -60,17 +73,32 @@ public class AdminApiTestController extends BaseController {
 	 * @param dto
 	 */
 	@Log(operation = "保存API测试") 
-	@ResponseBody
-	@RequestMapping(value = "/save")
-	@PreAuthorize("(hasRole('apiTest.update') and #dto.id != null) or (hasRole('apiTest.add') and #dto.id == null)")
-	public String save(ApiTestDTO dto, JsonResultDTO resultDTO) throws Exception {
-		if (dto.getId() == null) {
-			apiTestService.create(dto);
-		} else {
-			apiTestService.updateAllFields(dto);
-		}
-		return okAndClose(resultDTO);
-	}
+    @ResponseBody
+    @RequestMapping(value = "/save")
+    @PreAuthorize("(hasRole('apiTest.update') and #dto.id != null) or (hasRole('apiTest.add') and #dto.id == null)")
+    public String save(ApiTestDTO dto, JsonResultDTO resultDTO, String[] names, String[] requires, String[] defaultValues, String[] descriptions) throws Exception {
+        System.out.println("names: " + Arrays.toString(names));
+        
+        List<ApiTestParameter> parameters = new ArrayList<ApiTestParameter>();
+        if (ArrayUtils.isNotEmpty(names)) {
+            for (int i = 0; i < names.length; i++) {
+                ApiTestParameter parameter = new ApiTestParameter();
+                parameter.setName(names[i]);
+                parameter.setRequired("1".equals(requires[i]));
+                parameter.setDefaultValue(ArrayUtils.isEmpty(defaultValues) ? null : defaultValues[i]);
+                parameter.setDescription(ArrayUtils.isEmpty(descriptions) ? null : descriptions[i]);
+                parameters.add(parameter);
+            }
+        }
+        
+        if (dto.getId() == null) {
+            apiTestService.create(dto, parameters);
+        } else {
+            apiTestService.updateAllFields(dto, parameters);
+        }
+        
+        return okAndClose(resultDTO);
+    }
 
     @Log(operation = "删除API测试")
     @PreAuthorize("hasRole('apiTest.delete')")
@@ -91,6 +119,32 @@ public class AdminApiTestController extends BaseController {
 		map.put("apiTest", dto);
 		return "admin/apiTest/apiTest_list";
 	}
+	
+	@ResponseBody
+    @RequestMapping(value = "/datagrid")
+    @PreAuthorize("hasRole('apiTest.list')")
+    public String datagrid(ApiTestDTO dto, Map<String, Object> map, Page page) {
+        List<ApiTestDTO> dtos = apiTestService.find(dto, page);
+        JSONObject json = new JSONObject();
+        json.put("total", page.getTotalRecords());
+        
+        JSONArray array = new JSONArray();
+        for (ApiTestDTO apiTestDTO : dtos) {
+            JSONObject obj = new JSONObject();
+            
+            obj.put("id", apiTestDTO.getId());
+            obj.put("name", apiTestDTO.getName());
+            obj.put("description", apiTestDTO.getDescription());
+            obj.put("url", apiTestDTO.getUrl());
+            obj.put("module", apiTestDTO.getApiModule().getName());
+            
+            array.add(obj);
+            
+        }
+        json.put("rows", array);
+        
+        return json.toJSONString();
+    }
 	
 	/**
 	 * 用于查找带回的

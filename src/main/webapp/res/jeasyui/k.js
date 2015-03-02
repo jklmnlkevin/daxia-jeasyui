@@ -1,4 +1,14 @@
-var ctx = "http://localhost:8080/jeasyui-maven";
+var ctx = getRootPath();
+
+function getRootPath(){
+    var scriptObj = $("script[src$='/res/jeasyui/k.js']");
+    if(scriptObj==undefined)
+    {
+        return "";
+    }
+    var srcBase = scriptObj.eq(0).attr("src").replace("/res/jeasyui/k.js","");;
+    return srcBase
+}
 
 try {
 	if (!console) {}
@@ -101,6 +111,7 @@ function k_toolbar_add(module) {
 	                    		var ok = k_success(data);
 	                    		if (ok) {
 	                    			$('#dd').dialog('close');
+	                    			$('#' + module + '_datagrid').datagrid('reload');
 	                    		}
 	                    	}
 	                    });

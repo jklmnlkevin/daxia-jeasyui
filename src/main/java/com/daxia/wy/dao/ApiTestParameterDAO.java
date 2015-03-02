@@ -14,7 +14,7 @@ import com.daxia.wy.model.ApiTestParameter;
 /**
  * dao的实现类必须加上@Repository
  * 继承自GenericDAOHibernate，以重用基本的增删改方法。
- * @author Kewen.Zhu
+
  *
  */
 @Repository
@@ -56,5 +56,10 @@ public class ApiTestParameterDAO extends GenericDAOHibernate<ApiTestParameter> {
 		
 		List<ApiTestParameter> list = this.find(dto, page);
 	    return CollectionUtils.isEmpty(list) ? null : list.get(0);
+    }
+
+    public void deleteByApiTestId(Long id) {
+        String hql = "delete from ApiTestParameter where apiTest.id = ?";
+        super.executeUpdate(hql, new Object[] {id});
     }
 }

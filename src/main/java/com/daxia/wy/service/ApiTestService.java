@@ -10,15 +10,17 @@ import org.springframework.stereotype.Service;
 import com.daxia.core.support.Page;
 import com.daxia.core.util.BeanMapper;
 import com.daxia.wy.dao.ApiTestDAO;
+import com.daxia.wy.dao.ApiTestParameterDAO;
 import com.daxia.wy.dto.ApiTestDTO;
 import com.daxia.wy.model.ApiTest;
+import com.daxia.wy.model.ApiTestParameter;
 
 /**
  * Service层，类要加@Service标识
  * 一般都是由service层操作数据库，
  * 并且，只有save, update, delete等开头的方法，才有新增修改删除数据库表的权限，
  * 其它的方法名只有查询的权限，这是事务管理，具体哪些方法名可以指定这种权限，是在applicationContext.xml文件的txAdvice定义处配置。
- * @author Kewen.Zhu
+
  *
  */
 @Service
@@ -26,6 +28,8 @@ public class ApiTestService {
 	
 	@Autowired
 	private ApiTestDAO apiTestDAO;
+	@Autowired
+	private ApiTestParameterDAO apiTestParameterDAO;
 	
 	/**
 	 * 根据dto的查询条件和分页条件查找记录
@@ -70,10 +74,10 @@ public class ApiTestService {
 		return dto;
 	}
 	
-	public void create(ApiTestDTO dto) {
+	public Long create(ApiTestDTO dto) {
 		ApiTest model = new ApiTest();
 		toModel(model, dto);
-		apiTestDAO.create(model);
+		return apiTestDAO.create(model);
 	}
 
 	private void toModel(ApiTest model, ApiTestDTO dto) {
@@ -125,4 +129,24 @@ public class ApiTestService {
 		ApiTest model = apiTestDAO.findOne(dto);
 		return toDTO(model);
 	}
+
+    public void create(ApiTestDTO dto, List<ApiTestParameter> parameters) {
+        Long id = this.create(dto);
+        ApiTest model = apiTestDAO.load(id);
+        for (ApiTestParameter apiTestParameter : parameters) {
+            apiTestParameter.setApiTest(model);
+            apiTestParameterDAO.create(apiTestParameter);
+        }
+    }
+
+    public void updateAllFields(ApiTestDTO dto, List<ApiTestParameter> parameters) {
+        this.updateAllFields(dto);
+        apiTestParameterDAO.deleteByApiTestId(dto.getId());
+        
+        ApiTest model = apiTestDAO.load(dto.getId());
+        for (ApiTestParameter apiTestParameter : parameters) {
+            apiTestParameter.setApiTest(model);
+            apiTestParameterDAO.create(apiTestParameter);
+        }
+    }
 }
